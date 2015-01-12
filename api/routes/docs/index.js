@@ -68,8 +68,8 @@ router.patch('/:docUUID', function *() {
         },
         version: doc.version
       },
-      ProjectId: this.project.Collection.Project.id,
-      CollectionId: this.project.Collection.id,
+      ProjectId: this.doc.Collection.Project.id,
+      CollectionId: this.doc.Collection.id,
       DocUUID: this.doc.UUID,
       UserId: this.me.id
     });
@@ -82,8 +82,8 @@ router.patch('/:docUUID', function *() {
         distance: doc.distance,
         version: doc.version
       },
-      ProjectId: this.project.Collection.Project.id,
-      CollectionId: this.project.Collection.id,
+      ProjectId: this.doc.Collection.Project.id,
+      CollectionId: this.doc.Collection.id,
       DocUUID: this.doc.UUID,
       UserId: this.me.id
     });
