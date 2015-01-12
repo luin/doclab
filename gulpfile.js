@@ -80,7 +80,7 @@ gulp.task('less', function() {
     .pipe(gulpif(!production, sourcemaps.init({
       'loadMaps': true
     })))
-    .pipe(gulp.dest('build/css'))
+    .pipe(gulp.dest('build/styles'))
     .pipe(livereload());
 });
 
