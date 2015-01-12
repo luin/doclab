@@ -1,6 +1,7 @@
 var router = module.exports = new (require('koa-router'))();
 
 router.get('/signin', function *() {
+  this.cookies.set('session-token');
   yield this.render('account/signin');
 });
 
