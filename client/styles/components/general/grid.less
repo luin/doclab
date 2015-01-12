@@ -1,0 +1,32 @@
+.grid {
+  overflow: hidden;
+  & > header {
+    height: 42px;
+  }
+
+  &.grid--project {
+    float: left;
+    width: 300px;
+    height: 100%;
+
+    background: #2e343e;
+
+    h1 {
+      color: #7b8388;
+      font-size: 16px;
+      text-align: center;
+      line-height: 42px;
+      background: linear-gradient(to bottom, #464f5b 0%,#363d47 100%);
+      box-shadow: 0 1px 2px 0 #282C33;
+    }
+  }
+
+  &.grid--collection {
+    float: left;
+    width: 300px;
+  }
+
+  &.grid--news {
+    overflow: hidden;
+  }
+}

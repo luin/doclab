@@ -1,0 +1,58 @@
+html, body {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+.clearfix {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+input {
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 4px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  &.is-stacked {
+    input {
+      margin: 8px 0;
+      display: block;
+    }
+    label {
+      margin: 8px 0;
+      display: block;
+    }
+    button {
+      margin: 8px 0;
+      display: block;
+    }
+  }
+}
+
