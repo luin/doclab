@@ -2,6 +2,8 @@ module.exports = function(DataTypes) {
   return [{
     type: {
       type: DataTypes.ENUM(
+        // Project
+        'project.create',
         // Collection
         'collection.create',
         'collection.destroy',
@@ -25,6 +27,11 @@ module.exports = function(DataTypes) {
     }
   }, {
     timestamps: true,
-    updatedAt: false
+    updatedAt: false,
+    hooks: {
+      beforeCreate: function *(news) {
+        news.content = JSON.stringify(news.content);
+      }
+    }
   }];
 };
