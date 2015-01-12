@@ -1,8 +1,49 @@
-p Me: #{me.name}
-ul
-  each project in projects
-    li
-      a(href='/projects/#{project.id}') #{project.name}
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title WikiLab
+    link(href='/build/styles/index.css', media='all', rel='stylesheet', type='text/css')
+  body
+    include ./_includes/mixins/modal.jade
+    +modal('Create a Project')(id='createProjectModal')
+      form(action='/projects', method='post')
+        fieldset.is-stacked
+          label Name
+            input(type='text', name='name')
+          button.button.button--primary(type='submit') Create
 
-if currentProject
-  p Current project: #{currentProject.name}
+    section.grid.grid--project
+      header
+        h1 WikiLab
+      section.column.column--side
+        header
+          h2 My Projects
+            ul
+              li
+                a(href='#', data-modal='createProjectModal') +
+        ul.general-list.general-list--project
+          each project in projects
+            li(class=project.id === selectedProject.id ? 'is-active' : '')
+              a(href='/projects/#{project.id}')
+                p.general-list__title #{project.name}
+                p.general-list__meta authored 17 hours ago
+                p.general-list__count 17
+    section.grid.grid--collection
+      header
+        form
+          input(type='text', name='keyword')
+      section.column.column--main
+        header
+          h2 Collections
+        ul.general-list.general-list--collection.js-sortable--collection
+          each collection in selectedProject.collections
+            li
+              a(href='/collections/#{collection.id}')
+                p.general-list__title #{collection.name}
+                p.general-list__meta authored 17 hours ago
+                p.general-list__count 17
+    section.grid.grid--news
+      header
+        p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+    script(src='/build/scripts/index.js')

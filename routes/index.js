@@ -6,12 +6,12 @@ function *renderIndex(next) {
 
   if (this.locals.projects.length) {
     if (this.params.projectId) {
-      this.locals.currentProject = yield this.api.projects(this.params.projectId).get();
+      this.locals.selectedProject = yield this.api.projects(this.params.projectId).get();
     } else {
-      this.locals.currentProject = yield this.api.projects(this.locals.projects[0].id).get();
+      this.locals.selectedProject  = yield this.api.projects(this.locals.projects[0].id).get();
     }
   } else {
-    this.locals.currentProject = null;
+    this.locals.selectedProject  = null;
   }
   yield next;
 }
