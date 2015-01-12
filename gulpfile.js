@@ -60,11 +60,15 @@ gulp.task('assets', function() {
     .pipe(gulp.dest('build/assets/'));
 });
 gulp.task('less', function() {
+  var plugins = [autoprefix];
+  if (production) {
+    plugins.push(cleancss);
+  }
   return gulp.src('./client/styles/*.less')
     // sourcemaps + less + error handling
     .pipe(gulpif(!production, sourcemaps.init()))
     .pipe(less({
-      plugins: [autoprefix, cleancss]
+      plugins: plugins
     }))
     .on('error', handleError('LESS'))
     // generate .maps
