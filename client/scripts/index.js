@@ -1,2 +1,26 @@
-var b = require('./b');
-var i = 19;
+var $ = require('jquery');
+require('jquery-ui/sortable');
+
+$('[data-modal]').each(function() {
+  var $this = $(this);
+  var $modal = $('#' + $this.attr('data-modal'));
+
+  $modal.click(function() {
+    $modal.removeClass('is-active');
+  });
+
+  $modal.find('.modal__container').click(function(e) {
+    e.stopPropagation();
+  });
+
+  $modal.find('[data-modal-dismiss]').click(function() {
+    $modal.removeClass('is-active');
+  });
+
+  $this.click(function() {
+    $modal.addClass('is-active');
+    return false;
+  });
+});
+
+$('.js-sortable--collection').sortable();
