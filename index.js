@@ -1,5 +1,5 @@
 require('./env');
-var http = require('http');
+var mount = require('koa-mount');
 var koa = require('koa');
 var app = koa();
 
@@ -10,6 +10,8 @@ app.use(function *(next) {
   }
   yield next;
 });
+
+app.use(mount('/build', require('koa-static')('build', { defer: true })));
 
 app.use(require('koa-views')('views', { default: 'jade' }));
 app.use(function *(next) {
@@ -32,7 +34,7 @@ app.use(function *(next) {
         this.body = err.body;
       }
     }
-    console.error(err.stack);
+    console.error(err.stack || err);
   }
 });
 
