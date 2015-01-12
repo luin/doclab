@@ -1,0 +1,9 @@
+mixin modal(title)
+  .modal(id=attributes.id)
+    .modal__wrapper
+      .modal__container
+        header
+          h2 #{title}
+            span(data-modal-dismiss)
+        section
+          block
