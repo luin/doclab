@@ -83,6 +83,18 @@ router.get('/:projectId', function *() {
   this.body = this.project;
 });
 
+router.post('/:projectId/collections', function *() {
+  this.assert(yield this.me.havePermission(this.project, 'write'),
+              new HTTP_ERROR.NoPermission());
+
+  var collection = yield Collection.create({
+    name: this.request.body.name,
+    ProjectId: this.project.id
+  });
+
+  this.body = collection;
+});
+
 router.put('/:projectId/teams/:teamId', function *() {
   this.assert(yield this.me.havePermission(this.project, 'admin'), new HTTP_ERROR.NoPermission());
   this.assert(typeof this.request.body.permission !== 'undefined',
