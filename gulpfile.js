@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
-var livereload = require('gulp-livereload');
 
 var argv = require('yargs').argv;
 // less
@@ -19,7 +18,6 @@ var source = require('vinyl-source-stream');
 // gulp build --production
 var production = !!argv.production;
 // determine if we're doing a build
-// and if so, bypass the livereload
 var build = argv._.length ? argv._[0] === 'build' : false;
 var watch = argv._.length ? argv._[0] === 'watch' : true;
 
@@ -80,8 +78,7 @@ gulp.task('less', function() {
     .pipe(gulpif(!production, sourcemaps.init({
       'loadMaps': true
     })))
-    .pipe(gulp.dest('build/styles'))
-    .pipe(livereload());
+    .pipe(gulp.dest('build/styles'));
 });
 
 gulp.task('browserify', function() {
@@ -109,7 +106,6 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('watch', ['assets', 'less', 'browserify'], function() {
-  livereload.listen();
   gulp.watch('./client/styles/**/*.less', ['less']);
   gutil.log(gutil.colors.bgGreen('Watching for changes...'));
 });
@@ -124,6 +120,6 @@ gulp.task('build', [
 
 gulp.task('default', ['watch']);
 
-// gulp (watch) : for development and livereload
+// gulp (watch) : for development
 // gulp build : for a one off development build
 // gulp build --production : for a minified production build
