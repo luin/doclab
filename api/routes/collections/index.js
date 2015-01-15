@@ -24,9 +24,9 @@ router.get('/:collectionId', function *() {
 
 router.post('/:collectionId/_move', function *() {
   this.assert(this.checkPermission('write'), new HTTP_ERROR.NoPermission());
-  this.assert(this.body.order, new HTTP_ERROR.InvalidParameter('order is required'));
+  this.assert(typeof this.request.body.order === 'number', new HTTP_ERROR.InvalidParameter('order should be a number'));
 
-  this.collection.setOrder(this.body.order);
+  yield this.collection.setOrder(this.request.body.order);
   this.body = 'ok';
 });
 

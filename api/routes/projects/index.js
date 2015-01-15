@@ -78,7 +78,13 @@ router.get('/:projectId', function *() {
               new HTTP_ERROR.NoPermission());
 
   var collections = yield this.project.getCollections();
-  this.project.setDataValue('collections', collections);
+  this.project.setDataValue('collections', collections.sort(function(a, b) {
+    if (typeof a.order === 'number' && typeof b.order === 'number') {
+      return a.order - b.order;
+    } else {
+      return a.createdAt - b.createdAt;
+    }
+  }));
 
   this.body = this.project;
 });

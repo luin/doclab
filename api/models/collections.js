@@ -66,7 +66,7 @@ module.exports = function(DataTypes) {
           collections.splice(order, 0, thisInstance);
           for (i = 0; i < collections.length; ++i) {
             if (collections[i].order !== i) {
-              yield collections[i].updateAttributes({ order: i }, { transaction: t, silent: true });
+              yield collections[i].updateAttributes({ order: i }, { fields: ['order'], transaction: t, silent: true });
             }
           }
           t.commit();

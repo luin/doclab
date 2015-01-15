@@ -82,7 +82,7 @@ module.exports = function(DataTypes) {
           }
           var createdDoc = yield this.create(doc, { transaction: t });
           t.commit();
-          return createdDoc ;
+          return createdDoc;
         } catch (err) {
           t.rollback();
           throw err;
