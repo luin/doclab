@@ -62,7 +62,7 @@ gulp.task('less', function() {
   if (production) {
     plugins.push(cleancss);
   }
-  return gulp.src('./client/styles/*.less')
+  return gulp.src('./client/styles/index.less')
     // sourcemaps + less + error handling
     .pipe(gulpif(!production, sourcemaps.init()))
     .pipe(less({
