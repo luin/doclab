@@ -7,8 +7,12 @@ header.l-main-header
     ul.nav-menu.nav-menu--multiple
       li.nav-menu__item.js-menu__container
         a.nav-menu__link.js-menu__target(href='#')
-          span #{currentProject.name}
-          span.docicon.docicon-arrow-down
+          p.nav-ment--multiple__title #{currentProject.name}
+          ul.nav-ment--multiple__meta
+            li
+              a(href='/projects/#{currentProject.id}/settings') 设置
+            li
+              a(href='/launchpad') 切换
         ul.nav-menu__submenu.projects.js-menu__content
           // each project in projects
           //   if project.id !== selectedProject.id
