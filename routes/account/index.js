@@ -12,7 +12,7 @@ router.post('/signin', function *() {
     .sessions.post({ ttl: remember ? 86400 : 1209600 });
 
   var cookieOptions = {
-    expires: remember ? new Date(Date.now() + result.ttl) : undefined
+    expires: remember ? new Date(Date.now() + result.ttl * 1000) : undefined
   };
   this.cookies.set('session-token', result.token, cookieOptions);
 
