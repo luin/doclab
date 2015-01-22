@@ -8,14 +8,19 @@ exports = module.exports = function(options) {
   return function *(next) {
     var currentProject = this.cookies.get('current-project');
     if (currentProject) {
-      try {
-        this.locals.currentProject = JSON.parse(currentProject);
-      } catch (err) {
-        this.cookies.set('current-project');
-        return this.redirect('/launchpad');
+      currentProject = currentProject.split('|');
+      this.locals.currentProject = {
+        id: currentProject[0],
+        name: currentProject[1]
+      };
+      if (typeof this.params.projectId !== 'undefined' &&
+          this.locals.currentProject.id !== this.params.projectId) {
+        this.locals.currentProject = exports.select.call(this, yield this.api.projects(this.params.projectId).get());
       }
       if (options.fetch) {
-        var fetchedProject = yield this.api.projects(this.locals.currentProject.id).get();
+        var fetchedProject = yield this.api.projects(this.locals.currentProject.id).get(
+          typeof options.fetch === 'object' ? options.fetch : undefined
+        );
         if (fetchedProject.name !== this.locals.currentProject.name) {
           exports.select.call(this, fetchedProject);
         }
@@ -23,18 +28,17 @@ exports = module.exports = function(options) {
       }
       yield next;
     } else {
-      console.log('redirect 2');
       this.redirect('/launchpad');
     }
   };
 };
 
 exports.select = function(project) {
-  project = JSON.stringify({
-    id: project.id,
-    name: project.name
-  });
-  this.cookies.set('current-project', project, {
+  this.cookies.set('current-project', [project.id, project.name].join('|'), {
     expires: new Date(Date.now() + 365 * 24 * 3600 * 1000)
   });
+  return {
+    id: project.id,
+    name: project.name
+  };
 };
