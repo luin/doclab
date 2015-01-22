@@ -2,6 +2,7 @@ require('./env');
 var mount = require('koa-mount');
 var koa = require('koa');
 var app = koa();
+app.use(require('koa-logger')());
 
 app.use(require('koa-bodyparser')());
 app.use(function *(next) {
