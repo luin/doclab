@@ -2,8 +2,21 @@ html, body {
   height: 100%;
 }
 
+body {
+  font: 14px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+body.simple {
+  background: @color-bg;
+}
+
 * {
   box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
 }
 
 ul {
@@ -13,7 +26,12 @@ ul {
 }
 
 a {
+  color: @color-link;
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -28,12 +46,16 @@ h1, h2, h3, h4, h5, h6, p {
   }
 }
 
-input {
+.form-control,
+input[type="text"], input[type="password"], input[type="email"],
+input[type="number"], input[type="tel"], input[type="url"],
+textarea {
   padding: .5em .6em;
   display: inline-block;
   border: 1px solid #ccc;
   box-shadow: inset 0 1px 3px #ddd;
   border-radius: 4px;
+  outline: none;
 }
 
 fieldset {
@@ -56,3 +78,5 @@ fieldset {
   }
 }
 
+.left { float: left; }
+.right { float: right; }
