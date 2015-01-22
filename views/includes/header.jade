@@ -4,7 +4,7 @@ header.l-main-header
     .project-search
       form(action='/search', method='get')
         input(type='text', placeholder='Search', tabindex='1', autocapitalize='off')
-    ul.nav-menu.nav-menu--site
+    ul.nav-menu.nav-menu--multiple
       li.nav-menu__item.js-menu__container
         a.nav-menu__link.js-menu__target(href='#')
           span #{currentProject.name}
@@ -16,7 +16,7 @@ header.l-main-header
           //       a(href='/projects/#{project.id}')
           //         p.projects__name #{project.name}
           //         p.projects__permission Admin
-    ul.nav-menu.nav-menu--user
+    ul.nav-menu.nav-menu--single
       li.nav-menu__item
         a.nav-menu__link(href='/teams', title='Teams')
           span.nav-menu__icon.docicon.docicon-team
