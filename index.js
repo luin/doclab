@@ -12,7 +12,8 @@ app.use(function *(next) {
   yield next;
 });
 
-app.use(mount('/build', require('koa-static')('build', { defer: true })));
+app.use(require('koa-mount')('/api', require('./api')));
+app.use(mount('/build', require('koa-static')('build')));
 
 app.use(function *(next) {
   this.api = API;
