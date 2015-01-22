@@ -14,7 +14,6 @@ app.use(function *(next) {
 
 app.use(mount('/build', require('koa-static')('build', { defer: true })));
 
-app.use(require('koa-views')('views', { default: 'jade' }));
 app.use(function *(next) {
   this.api = API;
   var token = this.cookies.get('session-token');
@@ -29,19 +28,18 @@ app.use(function *(next) {
     yield next;
   } catch (err) {
     if (err.body) {
-      if (err.body.status === 401) {
-        this.redirect('/account/signin');
-      } else {
-        this.body = err.body;
-      }
+      this.body = err.body;
+      this.status = err.statusCode;
+    } else {
+      this.body = { err: 'server error' };
+      this.status = 500;
+      console.error(err.stack || err);
     }
-    console.error(err.stack || err);
   }
 });
 
+app.use(require('koa-views')('views/pages', { default: 'jade' }));
 require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
-
-app.use(require('koa-mount')('/api', require('./api')));
 
 if (require.main === module) {
   app.listen($config.port);

@@ -1,0 +1,13 @@
+extends ../layouts/simple
+block content
+  .container.container--narrow
+    .widget
+      header.widget__header Projects
+      ul.projects
+        each project in projects
+          li.projects__item
+            form(method='post', action='/launchpad').js-form__container
+              input(type='hidden', name='projectId', value='#{project.id}')
+              a.js-form__target(href='#')
+                p.projects__name #{project.name}
+                p.projects__description #{project.description}

@@ -1,0 +1,42 @@
+header.l-main-header
+  .container
+    h1.logo WikiLab
+    .project-search
+      form(action='/search', method='get')
+        input(type='text', placeholder='Search', tabindex='1', autocapitalize='off')
+    ul.nav-menu.nav-menu--site
+      li.nav-menu__item.js-menu__container
+        a.nav-menu__link.js-menu__target(href='#')
+          span #{currentProject.name}
+          span.docicon.docicon-arrow-down
+        ul.nav-menu__submenu.projects.js-menu__content
+          // each project in projects
+          //   if project.id !== selectedProject.id
+          //     li
+          //       a(href='/projects/#{project.id}')
+          //         p.projects__name #{project.name}
+          //         p.projects__permission Admin
+    ul.nav-menu.nav-menu--user
+      li.nav-menu__item
+        a.nav-menu__link(href='/teams', title='Teams')
+          span.nav-menu__icon.docicon.docicon-team
+      li.nav-menu__item.js-menu__container
+        a.nav-menu__link.js-menu__target(href='#', title='Notifications')
+          span.nav-menu__icon.docicon.docicon-notification
+        ul.nav-menu__submenu.js-menu__content
+          li
+            a(href='/account') Profile
+          li
+            a(href='/account') Settings
+          li
+            a(href='/account') Sign out
+      li.nav-menu__item.js-menu__container
+        a.nav-menu__link.js-menu__target(href='#')
+          img.avatar(src="https://d13yacurqjgara.cloudfront.net/users/117819/avatars/original/profile.jpg?1346766958", alt='#{me.name}')
+        ul.nav-menu__submenu.js-menu__content
+          li
+            a(href='/account') Profile
+          li
+            a(href='/account') Settings
+          li
+            a(href='/account') Sign out
