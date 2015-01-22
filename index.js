@@ -28,7 +28,10 @@ app.use(function *(next) {
   try {
     yield next;
   } catch (err) {
-    if (err.body) {
+    if (err.statusCode) {
+      if (err.statusCode === 401) {
+        return this.redirect('/account/signin');
+      }
       this.body = err.body;
       this.status = err.statusCode;
     } else {
