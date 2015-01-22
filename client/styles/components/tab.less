@@ -1,0 +1,41 @@
+.tab {
+  background: #fff;
+  border-left: 1px solid @color-split;
+  border-right: 1px solid @color-split;
+  min-height: 600px;
+}
+
+.tab__header {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0 0 20px;
+
+  > li {
+    display: table-cell;
+    text-align: center;
+    line-height: 40px;
+    border-right: 1px solid @color-split;
+
+    > a {
+      display: block;
+      border-bottom: 1px solid @color-split;
+
+      &.is-active {
+        border-top: 3px solid @color-link;
+        border-bottom: none;
+      }
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+.tab__content {
+  padding: @padding-module;
+  &:not(.is-active) {
+    display: none;
+  }
+}
