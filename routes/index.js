@@ -1,25 +1,18 @@
 var router = module.exports = new (require('koa-router'))();
+var middlewares = require('../middlewares');
 
-function *renderIndex(next) {
-  this.locals.me = yield this.api.users('me').get();
-  this.locals.projects = yield this.api.projects.get();
-
-  if (this.locals.projects.length) {
-    if (this.params.projectId) {
-      this.locals.selectedProject = yield this.api.projects(this.params.projectId).get();
-    } else {
-      this.locals.selectedProject  = yield this.api.projects(this.locals.projects[0].id).get();
-    }
-  } else {
-    this.locals.selectedProject  = null;
-  }
-  yield next;
-}
-
-router.get('/', renderIndex, function *() {
+router.get('/', middlewares.me(), middlewares.currentProject({ fetch: true }), function *() {
   yield this.render('index');
 });
 
-router.get('/projects/:projectId', renderIndex, function *() {
-  yield this.render('index');
+router.get('/launchpad', function *() {
+  this.locals.projects = yield this.api.projects.get();
+  yield this.render('launchpad');
+});
+
+router.post('/launchpad', function *() {
+  var project = yield this.api.projects(this.request.body.projectId).get();
+  console.log(project);
+  middlewares.currentProject.select.call(this, project);
+  this.redirect('/');
 });
