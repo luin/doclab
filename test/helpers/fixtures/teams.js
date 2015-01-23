@@ -1,22 +1,22 @@
 exports.load = function *() {
   return [
     yield Team.create({
-      name: 'Owner'
+      name: 'Team1'
     }),
     yield Team.create({
-      name: 'User1'
+      name: 'Team2'
     }),
     yield Team.create({
-      name: 'User2'
+      name: 'Team3'
     }),
     yield Team.create({
-      name: 'User3'
+      name: 'Team4'
     }),
     yield Team.create({
-      name: 'User4'
+      name: 'Team5'
     }),
     yield Team.create({
-      name: 'User5'
+      name: 'Team6'
     })
   ];
 };

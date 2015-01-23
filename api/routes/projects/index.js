@@ -95,7 +95,7 @@ router.get('/:projectId', function *() {
         return {
           id: team.id,
           name: team.name,
-          createdAt: team.createdAt,
+          createdAt: team.ProjectTeam.createdAt,
           permission: team.ProjectTeam.permission
         };
       }));
