@@ -10,9 +10,8 @@ block content
                 p.general-list__title #{collection.name}
                 p.general-list__description #{collection.name}
           li.collections__list__item.collections__list__item--button
-            a.collections__list__link(href='/collections/new')
+            a.collections__list__link(href='#', data-modal='createCollectionModal')
               p New Collection
-
       aside.tab.js-tab__container
         ul.tab__header
           li
@@ -33,3 +32,15 @@ block content
           p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
           p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
           p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+  +modal('Create Collection')(id='createCollectionModal')
+    form.form.form--stacked(method='post', action='/projects/#{currentProject.id}/collections')
+      .form__group
+        label(for='collectionName') Collection Name
+        input#collectionName(type='text', name='name')
+
+      .form__group
+        label(for='collectionDesc') Description
+        textarea#collectionDesc(name='description')
+
+      .form__group
+        button.button.button--primary(type='submit') Create

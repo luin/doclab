@@ -5,8 +5,11 @@ html
     title WikiLab
     link(href='/build/styles/index.css', media='all', rel='stylesheet', type='text/css')
   body
+    include ../mixins/modal
+    include ../mixins/alert
     block header
       include ../includes/header
+    +alert(flash)
     block content
     block footer
       include ../includes/footer
