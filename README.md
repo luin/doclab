@@ -98,6 +98,13 @@ Get the specified project info
 [Test](test/api/projects/get_project.js)
 [Code](routes/projects.js)
 
+**PATCH** `/projects/:projectId`
+
+Update a project
+
+[Test](test/api/projects/update_project.js)
+[Code](routes/projects.js)
+
 **POST** `/projects/:projectId/collections`
 
 Create a collection
