@@ -1,6 +1,3 @@
-require('./components/menu');
-require('./components/form');
-require('./components/modal');
-require('./components/tab');
+require('./components');
 
 require('./pages/index');
