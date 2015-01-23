@@ -1,6 +1,7 @@
 header.l-main-header
   .container
-    h1.logo WikiLab
+    h1.logo
+      a(href='/') WikiLab
     .project-search
       form(action='/search', method='get')
         input(type='text', placeholder='Search', tabindex='1', autocapitalize='off')
@@ -26,7 +27,7 @@ header.l-main-header
           li
             a(href='/account') Sign out
       li.header-menu__item.js-menu__container
-        a(href='#')
+        a.js-menu__target(href='#')
           img.avatar(src="https://d13yacurqjgara.cloudfront.net/users/117819/avatars/original/profile.jpg?1346766958", alt='#{me.name}')
         ul.header-menu__submenu.js-menu__content
           li

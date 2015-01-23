@@ -51,6 +51,7 @@ app.use(function *(next) {
   yield next;
 });
 
+app.use(require('koa-methodoverride')());
 require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
 
 if (require.main === module) {

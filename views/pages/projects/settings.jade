@@ -1,0 +1,19 @@
+extends ../../layouts/main
+block content
+  .container
+    .columns
+      .column.one-third
+        nav.sidebar-menu
+          a.is-active.sidebar-menu__item(href='#') Options
+          a.sidebar-menu__item(href='#') Members
+      .column.two-thirds
+        .panel
+          h3 Settings
+          .panel__content
+            form.form.form--stacked(method='post', action='/projects/#{currentProject.id}')
+              +form_method('patch')
+              .form__group
+                label(for='projectName') Project Name
+                input#projectName(type='text', name='name', value='#{currentProject.name}')
+              .form__group
+                button.button.button--primary(type='submit') Rename

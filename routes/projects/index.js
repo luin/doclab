@@ -5,6 +5,18 @@ router.get('/:projectId', middlewares.me(), middlewares.currentProject({ fetch: 
   yield this.render('projects/show');
 });
 
+router.get('/:projectId/settings', middlewares.me(), middlewares.currentProject({ fetch: true }), function *() {
+  yield this.render('projects/settings');
+});
+
+router.patch('/:projectId', function *() {
+  yield this.api.projects(this.params.projectId).patch({
+    name: this.request.body.name
+  });
+  this.flash = { msgs: 'Updated successfully' };
+  this.redirect('/projects/' + this.params.projectId + '/settings');
+});
+
 router.get('/:projectId/collections/:collectionId', function *() {
   yield this.render('index');
 });

@@ -1,0 +1,31 @@
+.sidebar-menu {
+  background: #fff;
+  border: 1px solid @color-split;
+}
+
+.sidebar-menu__item {
+  display: block;
+  padding: 10px;
+  border-bottom: 1px solid @color-split;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.sidebar-menu__item:last-child {
+  border-bottom: none;
+}
+
+.sidebar-menu__item.is-active {
+  cursor: default;
+  font-weight: bold;
+  color: #333;
+  border-left: 2px solid #d26911;
+  margin-left: -1px;
+
+  &:hover {
+    text-decoration: none;
+    background: none;
+  }
+}

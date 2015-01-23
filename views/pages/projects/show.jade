@@ -1,37 +1,39 @@
 extends ../../layouts/main
 block content
-  .l-main-content
-    .container
-      section.collections
-        ul.collections__list.js-sortable--collection
-          each collection in currentProject.collections
-            li.collections__list__item(data-collection-id='#{collection.id}')
-              a.collections__list__link(href='/collections/#{collection.id}')
-                p.general-list__title #{collection.name}
-                p.general-list__description #{collection.name}
-          li.collections__list__item.collections__list__item--button
-            a.collections__list__link(href='#', data-modal='createCollectionModal')
-              p New Collection
-      aside.tab.js-tab__container
-        ul.tab__header
-          li
-            a(href='#', data-tab='news').js-tab__target.is-active News
-          li
-            a(href='#', data-tab='members').js-tab__target Members
-        .tab__content.js-tab__content.is-active(data-tab='news')
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-        .tab__content.js-tab__content(data-tab='members')
-          header
-            h2 Members
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
-          p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+  .container
+    .columns
+      .column.main-golden
+        section.collections
+          ul.collections__list.js-sortable--collection
+            each collection in currentProject.collections
+              li.collections__list__item(data-collection-id='#{collection.id}')
+                a.collections__list__link(href='/collections/#{collection.id}')
+                  p.general-list__title #{collection.name}
+                  p.general-list__description #{collection.description}
+            li.collections__list__item.collections__list__item--button
+              a.collections__list__link(href='#', data-modal='createCollectionModal')
+                p New Collection
+      .column.side-golden
+        aside.tab.js-tab__container
+          ul.tab__header
+            li
+              a(href='#', data-tab='news').js-tab__target.is-active News
+            li
+              a(href='#', data-tab='members').js-tab__target Members
+          .tab__content.js-tab__content.is-active(data-tab='news')
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+          .tab__content.js-tab__content(data-tab='members')
+            header
+              h2 Members
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
+            p Me: #{me.name} Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name}Me: #{me.name} Me: #{me.name}
   +modal('Create Collection')(id='createCollectionModal')
     form.form.form--stacked(method='post', action='/projects/#{currentProject.id}/collections')
       .form__group
