@@ -43,6 +43,14 @@ app.use(function *(next) {
 });
 
 app.use(require('koa-views')('views/pages', { default: 'jade' }));
+
+app.use(require('koa-session')({ signed: false }, app));
+app.use(require('koa-flash')());
+app.use(function *(next) {
+  this.locals.flash = this.flash;
+  yield next;
+});
+
 require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
 
 if (require.main === module) {
