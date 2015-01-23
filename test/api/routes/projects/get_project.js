@@ -42,6 +42,27 @@ describe('GET /projects/:projectId', function() {
     var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get();
     expect(returnedProject).to.have.property('id', project.id);
     expect(returnedProject).to.have.property('name', project.name);
-    expect(returnedProject.collections).to.have.length(2);
+    expect(returnedProject).to.not.have.property('collections');
+    expect(returnedProject).to.not.have.property('teams');
+  });
+
+  describe('?field', function() {
+    it('should support collections', function *() {
+      var user = fixtures.users[0];
+      var project = fixtures.projects[0];
+      var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get({
+        fields: 'collections'
+      });
+      expect(returnedProject.collections).to.have.length(2);
+    });
+
+    it('should support teams', function *() {
+      var user = fixtures.users[0];
+      var project = fixtures.projects[0];
+      var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get({
+        fields: 'teams'
+      });
+      expect(returnedProject.teams).to.have.length(1);
+    });
   });
 });

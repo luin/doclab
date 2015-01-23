@@ -77,14 +77,30 @@ router.get('/:projectId', function *() {
   this.assert(yield this.me.havePermission(this.project, 'read'),
               new HTTP_ERROR.NoPermission());
 
-  var collections = yield this.project.getCollections();
-  this.project.setDataValue('collections', collections.sort(function(a, b) {
-    if (typeof a.order === 'number' && typeof b.order === 'number') {
-      return a.order - b.order;
-    } else {
-      return a.createdAt - b.createdAt;
+  if (this.query.fields) {
+    var fields = this.query.fields.split(',');
+    if (fields.indexOf('collections') !== -1) {
+      var collections = yield this.project.getCollections();
+      this.project.setDataValue('collections', collections.sort(function(a, b) {
+        if (typeof a.order === 'number' && typeof b.order === 'number') {
+          return a.order - b.order;
+        } else {
+          return a.createdAt - b.createdAt;
+        }
+      }));
     }
-  }));
+    if (fields.indexOf('teams') !== -1) {
+      var teams = yield this.project.getTeams();
+      this.project.setDataValue('teams', teams.map(function(team) {
+        return {
+          id: team.id,
+          name: team.name,
+          createdAt: team.createdAt,
+          permission: team.ProjectTeam.permission
+        };
+      }));
+    }
+  }
 
   this.body = this.project;
 });
