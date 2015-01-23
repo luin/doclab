@@ -1,0 +1,29 @@
+extends ../../layouts/main
+block content
+  .container
+    .columns
+      .column.one-third
+        nav.sidebar-menu
+          a.sidebar-menu__item(href='/projects/#{currentProject.id}/settings') Settings
+          a.is-active.sidebar-menu__item(href='/projects/#{currentProject.id}/teams') Teams
+      .column.two-thirds
+        .panel
+          h3 Teams
+          .panel__content
+            table.table
+              thead
+                tr
+                  th
+                  th.center None
+                  th.center Read
+                  th.center Write
+                  th.center Admin
+                  th
+              tbody.js-team-table
+                each team in teams
+                  tr(data-teamid='#{team.id}', data-permission='#{team.permission}')
+                    td #{team.name}
+                    td.center(data-permission='none')
+                    td.center(data-permission='read')
+                    td.center(data-permission='write')
+                    td.center(data-permission='admin')
