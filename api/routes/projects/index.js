@@ -89,6 +89,22 @@ router.get('/:projectId', function *() {
   this.body = this.project;
 });
 
+router.patch('/:projectId', function *() {
+  this.assert(yield this.me.havePermission(this.project, 'admin'),
+              new HTTP_ERROR.NoPermission());
+
+  var properties = ['name'];
+  _.intersection(properties, Object.keys(this.request.body)).forEach(function(key) {
+    this.project[key] = this.request.body[key];
+  }, this);
+
+  var changed = this.project.changed();
+  if (changed) {
+    yield this.project.save({ silent: true });
+  }
+  this.body = { changedProperties: changed || [] };
+});
+
 router.post('/:projectId/collections', function *() {
   this.assert(yield this.me.havePermission(this.project, 'write'),
               new HTTP_ERROR.NoPermission());
@@ -97,6 +113,16 @@ router.post('/:projectId/collections', function *() {
     name: this.request.body.name,
     description: this.request.body.description,
     ProjectId: this.project.id
+  });
+
+  yield News.create({
+    type: 'collection.create',
+    content: {
+      name: collection.name
+    },
+    ProjectId: this.params.projectId,
+    CollectionId: collection.id,
+    UserId: this.me.id
   });
 
   this.body = collection;

@@ -1,4 +1,4 @@
-describe.only('POST /collections/:collectionId/_move', function() {
+describe('POST /collections/:collectionId/_move', function() {
   beforeEach(function *() {
     yield fixtures.load();
     this.writer = fixtures.users[1];
