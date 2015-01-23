@@ -9,7 +9,7 @@ router.get('/:projectId/settings', middlewares.me(), middlewares.currentProject(
   yield this.render('projects/settings');
 });
 
-router.get('/:projectId/teams', middlewares.me(), middlewares.currentProject({ fetch: { fields: 'teams' } }), function *() {
+router.get('/:projectId/permissions', middlewares.me(), middlewares.currentProject({ fetch: { fields: 'teams' } }), function *() {
   var teams = yield this.api.teams.get();
   teams = teams.filter(function(team) {
     return !this.locals.currentProject.teams.find(function(item) {
