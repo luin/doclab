@@ -4,6 +4,9 @@ module.exports = function(DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    description: {
+      type: DataTypes.STRING
+    },
     order: {
       type: DataTypes.INTEGER
     }

@@ -40,9 +40,11 @@ describe('POST /projects/:projectId/collections', function() {
 
   it('should create a new collection', function *() {
     var collection = yield API.$auth(this.writer.email, this.writer.password).projects(this.project.id).collections.post({
-      name: 'new name'
+      name: 'new name',
+      description: 'new description'
     });
     expect(collection.name).to.eql('new name');
+    expect(collection.description).to.eql('new description');
     expect(collection.ProjectId).to.eql(this.project.id);
   });
 });

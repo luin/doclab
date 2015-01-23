@@ -95,6 +95,7 @@ router.post('/:projectId/collections', function *() {
 
   var collection = yield Collection.create({
     name: this.request.body.name,
+    description: this.request.body.description,
     ProjectId: this.project.id
   });
 
