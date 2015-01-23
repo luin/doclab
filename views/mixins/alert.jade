@@ -1,0 +1,26 @@
+mixin alert(flash, permanent)
+  if flash.msgs && flash.msgs.length > 0
+    .container.alert.alert--success.js-alert__container
+      unless permanent
+        .alert__close.docicon.docicon-close.js-alert__close
+      if typeof flash.msgs === 'string'
+        p #{flash.msgs}
+      else if flash.msgs.length === 1
+        p #{flash.msgs[0]}
+      else
+        ul
+          each msg in flash.msgs
+            li #{msg}
+
+  if flash.errs && flash.errs.length > 0
+    .container.alert.alert--danger.js-alert__container
+      unless permanent
+        .alert__close.docicon.docicon-close.js-alert__close
+      if typeof flash.errs === 'string'
+        p #{flash.errs}
+      else if flash.errs.length === 1
+        p #{flash.errs[0]}
+      else
+        ul
+          each err in flash.errs
+            li #{err}
