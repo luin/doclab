@@ -25,11 +25,11 @@ router.param('user', function *(id, next) {
   yield next;
 });
 
-router.get('/:user', function *(next) {
+router.get('/:user', function *() {
   this.body = this.user;
 });
 
-router.patch('/:user', function *(next) {
+router.patch('/:user', function *() {
   this.assert(this.me.id === this.user.id, new HTTP_ERROR.NoPermission());
 
   var properties = ['name', 'email'];
@@ -44,11 +44,14 @@ router.patch('/:user', function *(next) {
   this.body = { changedProperties: changed || [] };
 });
 
-router.put('/:user/password', function *(next) {
+router.put('/:user/password', function *() {
   this.assert(this.me.id === this.user.id, new HTTP_ERROR.NoPermission());
 
   var isPasswordCorrect = yield this.me.comparePassword(this.request.body.oldPassword);
   this.assert(isPasswordCorrect, new HTTP_ERROR.WrongPassword());
 
   this.body = yield this.me.updatePassword(this.request.body.newPassword);
+});
+
+router.put('/:user/avatar', function *() {
 });

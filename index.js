@@ -4,7 +4,14 @@ var koa = require('koa');
 var app = koa();
 app.use(require('koa-logger')());
 
-app.use(require('koa-bodyparser')());
+app.use(require('koa-better-body')({
+  multipart: true,
+  fieldsKey: false,
+  filesKey: false,
+  formidable: {
+    multiples: false
+  }
+}));
 app.use(function *(next) {
   if (typeof this.request.body === 'undefined' || this.request.body === null) {
     this.request.body = {};
@@ -48,6 +55,7 @@ app.use(require('koa-session')({ signed: false }, app));
 app.use(require('koa-flash')());
 app.use(function *(next) {
   this.locals.flash = this.flash;
+  this.locals.req = this.request;
   yield next;
 });
 

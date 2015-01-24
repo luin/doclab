@@ -6,7 +6,7 @@ describe('GET /users/:user', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.users(fixtures.users[0]).get();
+      yield API.users(this.user.id).get();
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
