@@ -1,0 +1,30 @@
+.permission-table {
+  th, td {
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+  }
+
+  td:first-child {
+    font-weight: bold;
+  }
+
+  tr:hover td {
+    background: #f7f7f7;
+  }
+
+  td .docicon {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+
+    &.docicon-checked {
+      color: #80c100;
+    }
+    &.docicon-unchecked {
+      color: #ccc;
+    }
+    &.docicon-unchecked:hover {
+      color: #999;
+    }
+  }
+}

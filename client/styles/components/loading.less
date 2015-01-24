@@ -1,0 +1,23 @@
+@keyframes loading {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  display: block;
+  opacity: 0;
+  .docicon;
+  .docicon-loading;
+  color: #ccc;
+  animation: loading 2s linear 0s infinite;
+
+  &.is-loading {
+    opacity: 1;
+  }
+
+  &.is-done {
+    animation: none;
+    color: #80c100;
+    .docicon-checkmark;
+  }
+}
