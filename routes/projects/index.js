@@ -36,6 +36,12 @@ router.patch('/:projectId', function *() {
   this.redirect('/projects/' + this.params.projectId + '/settings');
 });
 
+router.put('/:projectId/teams/:teamId', function *() {
+  this.body = yield this.api.projects(this.params.projectId).teams(this.params.teamId).put({
+    permission: this.request.body.permission === 'none' ? null : this.request.body.permission
+  });
+});
+
 router.get('/:projectId/collections/:collectionId', function *() {
   yield this.render('index');
 });

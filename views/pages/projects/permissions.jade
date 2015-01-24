@@ -11,7 +11,7 @@ block content
           h3 Teams
             button.button.button--small Create new team
           .panel__content
-            table.table
+            table.table.permission-table.js-permission-table
               thead
                 tr
                   th
@@ -19,8 +19,8 @@ block content
                   th.center Read
                   th.center Write
                   th.center Admin
-                  th
-              tbody.js-team-table
+                  th(width='20')
+              tbody
                 each team in teams
                   tr(data-teamid='#{team.id}', data-permission='#{team.permission}')
                     td #{team.name}
@@ -28,3 +28,5 @@ block content
                     td.center(data-permission='read')
                     td.center(data-permission='write')
                     td.center(data-permission='admin')
+                    td.center
+                      .loading

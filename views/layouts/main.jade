@@ -15,4 +15,6 @@ html
     block footer
       include ../includes/footer
     block scripts
+      script.
+        var currentProjectId = !{JSON.stringify(currentProject.id)};
       script(src='/build/scripts/index.js')
