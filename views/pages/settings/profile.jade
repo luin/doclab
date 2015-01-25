@@ -1,0 +1,48 @@
+extends ../../layouts/main
+block content
+  .container
+    .columns
+      .column.one-third
+        nav.panel.sidebar-menu
+          h3 Personal settings
+          - var menu = { Profile: 'profile', Password: 'password' };
+          each val, key in menu
+            if req.path === '/' + val
+              a.sidebar-menu__item.is-active(href='/settings/#{val}') #{key}
+            else
+              a.sidebar-menu__item(href='/settings/#{val}') #{key}
+        nav.panel.sidebar-menu
+          h3 System settings
+          - var menu = { Global: 'global', Account: 'account' };
+          each val, key in menu
+            if req.path === '/' + val
+              a.sidebar-menu__item.is-active(href='/settings/#{val}') #{key}
+            else
+              a.sidebar-menu__item(href='/settings/#{val}') #{key}
+      .column.two-thirds
+        .panel
+          h3 Avatar
+          .panel__content
+            form.form.form--stacked(method='post', action='/projects/#{currentProject.id}')
+              +form_method('patch')
+              .form__group
+                label(for='userName') Your name
+                input#userName(type='text', name='name', value='#{me.name}')
+              .form__group
+                label(for='userEmail') Email
+                input#userEmail(type='text', name='name', value='#{me.email}')
+              .form__group
+                button.button.button--primary(type='submit') Update profile
+        .panel
+          h3 Profile
+          .panel__content
+            form.form.form--stacked(method='post', action='/projects/#{currentProject.id}')
+              +form_method('patch')
+              .form__group
+                label(for='userName') Your name
+                input#userName(type='text', name='name', value='#{me.name}')
+              .form__group
+                label(for='userEmail') Email
+                input#userEmail(type='text', name='name', value='#{me.email}')
+              .form__group
+                button.button.button--primary(type='submit') Update profile
