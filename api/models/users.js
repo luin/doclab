@@ -1,3 +1,4 @@
+var config = require('config');
 var promisify = require('promisify-node');
 var bcrypt = promisify('bcrypt');
 var Instance = require('../../node_modules/sequelize/lib/instance.js');
@@ -24,14 +25,20 @@ module.exports = function(DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    avatar: {
+      type: DataTypes.STRING
+    },
+    avatarOrig: {
+      type: DataTypes.STRING
     }
   }, {
     timestamps: true,
     updatedAt: false,
     hooks: {
       beforeCreate: function *(user) {
-        if ($config.bcryptRound) {
-          user.password = yield bcrypt.hash(user.password, $config.bcryptRound);
+        if (config.security.bcryptRound) {
+          user.password = yield bcrypt.hash(user.password, config.security.bcryptRound);
         }
       }
     },
@@ -41,18 +48,21 @@ module.exports = function(DataTypes) {
         // Related issue: https://github.com/sequelize/sequelize/issues/2156
         var ret = Instance.prototype.toJSON.call(this);
         delete ret.password;
+
+        ret.avatar = config.site.url + ret.avatar;
+        ret.avatarOrig = config.site.url + ret.avatarOrig;
         return ret;
       },
       comparePassword: function *(password) {
-        if ($config.bcryptRound) {
+        if (config.security.bcryptRound) {
           return yield bcrypt.compare(password, this.password);
         }
         return this.password === password;
       },
       updatePassword: function *(newPassword) {
         var hashPassword;
-        if ($config.bcryptRound) {
-          hashPassword = yield bcrypt.hash(newPassword, $config.bcryptRound);
+        if (config.security.bcryptRound) {
+          hashPassword = yield bcrypt.hash(newPassword, config.security.bcryptRound);
         } else {
           hashPassword = newPassword;
         }
