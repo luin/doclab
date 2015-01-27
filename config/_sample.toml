@@ -1,0 +1,23 @@
+[site]
+port = 4001
+url  = 'http://localhost:4001'
+
+[database]
+dialect = "mysql"
+name    = "wikilab"
+user    = ""
+pass    = ""
+log     = false
+
+[redis]
+port = 6379
+host = "127.0.0.1"
+
+[api]
+enable = true
+
+[security]
+bcryptRound = 10
+
+[security.keys]
+form = "Iq8x4b9cqJyX1zOY5RwBwz2x8uV58GWg"

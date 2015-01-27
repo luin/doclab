@@ -56,7 +56,8 @@
     "node-require-directory": "^1.0.2",
     "pg": "^4.1.0",
     "promisify-node": "^0.1.5",
-    "sequelize": "^2.0.0-rc3"
+    "sequelize": "^2.0.0-rc3",
+    "toml": "^2.1.1"
   },
   "devDependencies": {
     "chai": "^1.10.0",

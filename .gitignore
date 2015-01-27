@@ -29,7 +29,7 @@ node_modules
 
 # Config
 config/*
-!config/_sample.json
+!config/_sample.toml
 !config/custom-environment-variables.json
 
 # Local files
