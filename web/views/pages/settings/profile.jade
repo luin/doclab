@@ -23,14 +23,10 @@ block content
         .panel
           h3 Avatar
           .panel__content
-            form.form.form--stacked(method='post', action='/projects/#{currentProject.id}')
-              +form_method('patch')
+            form.form.form--stacked(method='post', enctype='multipart/form-data', action='/users/me/avatar')
               .form__group
-                label(for='userName') Your name
-                input#userName(type='text', name='name', value='#{me.name}')
-              .form__group
-                label(for='userEmail') Email
-                input#userEmail(type='text', name='name', value='#{me.email}')
+                label(for='userAvatar') Avatar
+                input#userAvatar(type='file', name='file')
               .form__group
                 button.button.button--primary(type='submit') Update profile
         .panel

@@ -1,11 +1,13 @@
+var config = require('config');
+
 describe('Model.User', function() {
   beforeEach(function *() {
-    $config.bcryptRound = 1;
+    config.security.bcryptRound = 1;
     yield fixtures.load();
   });
 
   afterEach(function() {
-    $config.bcryptRound = null;
+    config.security.bcryptRound = null;
   });
 
   describe('password', function() {

@@ -5,7 +5,7 @@ GLOBAL.sinon = require('sinon');
 GLOBAL.fixtures = require('./fixtures');
 
 var app = require('../../');
-app.listen($config.port);
+app.listen(require('config').site.port);
 
 chai.use(function (_chai, utils) {
   chai.Assertion.addMethod('error', function(error) {
