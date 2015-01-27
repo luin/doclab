@@ -1,12 +1,13 @@
 var Sequelize = require('sequelize');
+var config = require('config');
 var inflection = require('inflection');
 var co =  require('co');
 
-$config.database.logging = $config.database.log ? console.log : false;
-var sequelize = new Sequelize($config.database.name,
-                              $config.database.user,
-                              $config.database.pass,
-                              $config.database);
+config.database.logging = config.database.log ? console.log : false;
+var sequelize = new Sequelize(config.database.name,
+                              config.database.user,
+                              config.database.pass,
+                              config.database);
 
 var models = require('node-require-directory')(__dirname);
 Object.keys(models).forEach(function(key) {

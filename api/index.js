@@ -3,6 +3,8 @@ var http = require('http');
 var koa = require('koa');
 var app = koa();
 
+app.use(require('koa-mount')('/upload', require('koa-static')('upload')));
+
 // Error handling
 app.use(function *(next) {
   this.createError = function(err) {
@@ -58,7 +60,6 @@ app.use(function *(next) {
   yield next;
 });
 
-var path = require('path');
-require('koa-mount-directory')(app, path.join(__dirname, 'routes'));
+require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
 
 module.exports = app;
