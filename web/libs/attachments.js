@@ -7,15 +7,14 @@ var randomFileName = function() {
   return chars.join('');
 };
 
-exports.generateUploadForm = function(resource, redirect) {
+exports.generateUploadForm = function(resource) {
   var filename = randomFileName();
 
   var policy = new Buffer(JSON.stringify({
     expiration: (new Date(Date.now() + 3600 * 1000)).toISOString(),
     conditions: [
       { resource: resource },
-      { filename: filename },
-      { redirect: redirect }
+      { filename: filename }
     ]
   })).toString('base64');
 
@@ -24,7 +23,6 @@ exports.generateUploadForm = function(resource, redirect) {
   return {
     url: '/api/attachments/' + resource + '/files',
     fields: {
-      redirect: redirect,
       resource: resource,
       filename: filename,
       policy: policy,

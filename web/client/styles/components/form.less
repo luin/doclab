@@ -17,3 +17,21 @@
     resize: vertical;
   }
 }
+
+.form__upload-input {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  > input[type="file"] {
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    opacity: 0;
+    font-size: 50px;
+    z-index: 99;
+  }
+}

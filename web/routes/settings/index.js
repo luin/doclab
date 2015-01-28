@@ -7,6 +7,6 @@ router.get('/', function *() {
 });
 
 router.get('/profile', middlewares.me(), middlewares.currentProject(), function *() {
-  this.locals.avatarForm = attachments.generateUploadForm(this.protocol + '://' + this.host + '/attachments/avatar');
+  this.locals.sessiontoken = this.cookies.get('session-token');
   yield this.render('settings/profile');
 });
