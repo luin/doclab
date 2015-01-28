@@ -16,6 +16,13 @@ host = "127.0.0.1"
 [api]
 enable = true
 
+[upload]
+dir = 'api/upload'
+
+[upload.fileSizeLimit]
+avatar = 2
+attachment = 20
+
 [security]
 bcryptRound = 10
 
