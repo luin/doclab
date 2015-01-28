@@ -16,6 +16,13 @@ module.exports = function(DataTypes) {
         max: 3600 * 24 * 14
       }
     },
+    ip: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    userAgent: {
+      type: DataTypes.STRING
+    },
     expiredAt: DataTypes.DATE
   }, {
     timestamps: true,

@@ -5,7 +5,11 @@ describe('Model.Session', function() {
 
   describe('.getUser()', function() {
     it('should return null when user is not found', function *() {
-      var session = yield Session.create({ ttl: 600 });
+      var session = yield Session.create({
+        ttl: 600,
+        userAgent: 'npm test',
+        ip: '127.0.0.1'
+      });
       expect(yield Session.getUser(session.token)).to.eql(null);
     });
 
@@ -14,22 +18,42 @@ describe('Model.Session', function() {
     });
 
     it('should return null when token is expired', function *() {
-      var session = yield Session.create({ ttl: 600, UserId: fixtures.users[0].id });
+      var session = yield Session.create({
+        ttl: 600,
+        UserId: fixtures.users[0].id,
+        userAgent: 'npm test',
+        ip: '127.0.0.1'
+      });
       yield session.updateAttributes({ expiredAt: new Date(Date.now() - 1) });
       expect(yield Session.getUser(session.token)).to.eql(null);
     });
 
     it('should return the user', function *() {
       var user = fixtures.users[0];
-      var session = yield Session.create({ ttl: 600, UserId: user.id });
+      var session = yield Session.create({
+        ttl: 600,
+        UserId: user.id,
+        userAgent: 'npm test',
+        ip: '127.0.0.1'
+      });
       expect(yield Session.getUser(session.token)).to.have.property('id', user.id);
     });
 
     it('should remove all expired sessions when Math.random() is less then 0.01', function *() {
-      var expiredSession = yield Session.create({ ttl: 600, UserId: fixtures.users[0].id });
+      var expiredSession = yield Session.create({
+        ttl: 600,
+        UserId: fixtures.users[0].id,
+        userAgent: 'npm test',
+        ip: '127.0.0.1'
+      });
       yield expiredSession.updateAttributes({ expiredAt: new Date(Date.now() - 1000) });
 
-      var session = yield Session.create({ ttl: 600, UserId: fixtures.users[0].id });
+      var session = yield Session.create({
+        ttl: 600,
+        UserId: fixtures.users[0].id,
+        userAgent: 'npm test',
+        ip: '127.0.0.1'
+      });
       sinon.stub(Math, 'random', function() { return 0.005; });
       yield Session.getUser(session.token);
       expect(yield Session.find(expiredSession.id)).to.eql(null);

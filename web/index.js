@@ -1,10 +1,13 @@
 var koa = require('koa');
 var app = koa();
 
-app.use(require('koa-mount')('/build', require('koa-static')('build')));
+app.use(require('koa-mount')('/build', require('koa-static')(require('path').join(__dirname, 'build'))));
+
+app.use(require('koa-logger')());
 
 app.use(function *(next) {
   this.api = API;
+  this.api.$header('user-agent', this.request.get('user-agent'));
   var token = this.cookies.get('session-token');
   if (token) {
     this.api.$header('x-session-token', token);
@@ -45,8 +48,15 @@ app.use(function *(next) {
   yield next;
 });
 
-app.use(require('koa-methodoverride')());
+app.use(require('koa-bodyparser')());
+app.use(function *(next) {
+  if (typeof this.request.body === 'undefined' || this.request.body === null) {
+    this.request.body = {};
+  }
+  yield next;
+});
 
+app.use(require('koa-methodoverride')());
 require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
 
 module.exports = app;

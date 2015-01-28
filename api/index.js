@@ -1,10 +1,12 @@
 require('./env');
+var config = require('config');
 var http = require('http');
 var koa = require('koa');
 var app = koa();
 
-app.use(require('koa-mount')('/upload', require('koa-static')('upload')));
+app.use(require('koa-mount')('/api/upload', require('koa-static')(require('path').join(__dirname, '..', config.upload.dir))));
 
+app.use(require('koa-logger')());
 // Error handling
 app.use(function *(next) {
   this.createError = function(err) {
@@ -42,24 +44,38 @@ app.use(function *(next) {
     this.me = yield Session.getUser(token);
     this.assert(this.me, new HTTP_ERROR.InvalidToken());
     this.me.setDataValue('authScope', 'session');
+    return yield next;
   }
+  if (typeof this.query.sessiontoken === 'string' && this.request.is('multipart/*')) {
+    this.me = yield Session.getUser(this.query.sessiontoken);
+    this.assert(this.me, new HTTP_ERROR.InvalidToken());
+    this.me.setDataValue('authScope', 'session');
+    return yield next;
+  }
+
   var user = auth(this.req);
   if (user) {
     this.me = yield User.find({ where: { email: user.name } });
     this.assert(this.me, new HTTP_ERROR.UnregisteredEmail());
     this.assert(yield this.me.comparePassword(user.pass), new HTTP_ERROR.WrongPassword());
     this.me.setDataValue('authScope', 'basic-auth');
+    return yield next;
   }
-  if (!this.me) {
-    Object.defineProperty(this, 'me', {
-      get: function() {
-        this.throw(new HTTP_ERROR.Unauthorized());
-      }
-    });
-  }
+  Object.defineProperty(this, 'me', {
+    get: function() {
+      this.throw(new HTTP_ERROR.Unauthorized());
+    }
+  });
   yield next;
 });
 
-require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
+app.use(require('koa-bodyparser')());
+app.use(function *(next) {
+  if (typeof this.request.body === 'undefined' || this.request.body === null) {
+    this.request.body = {};
+  }
+  yield next;
+});
+require('koa-mount-directory')(app, '/api', require('path').join(__dirname, 'routes'));
 
 module.exports = app;

@@ -1,19 +1,26 @@
 require('./env');
 var mount = require('koa-mount');
 var koa = require('koa');
-var app = koa();
-app.use(require('koa-logger')());
 
-app.use(require('koa-bodyparser')());
-app.use(function *(next) {
-  if (typeof this.request.body === 'undefined' || this.request.body === null) {
-    this.request.body = {};
+
+var parseurl = require('parseurl');
+
+function match(prefix, path) {
+  return path === prefix || path.indexOf(prefix + '/') === 0;
+}
+
+var api = require('./api');
+var web = require('./web');
+
+var app = require('http').createServer(function(req, res) {
+  var url = parseurl(req);
+  console.log(url.pathname);
+  if (match('/api', url.pathname)) {
+    api.callback()(req, res);
+  } else {
+    web.callback()(req, res);
   }
-  yield next;
 });
-
-app.use(mount('/api', require('./api')));
-app.use(mount('/', require('./web')));
 
 if (require.main === module) {
   app.listen(require('config').site.port);

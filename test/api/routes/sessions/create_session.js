@@ -13,7 +13,7 @@ describe('POST /sessions', function() {
 
   it('should return NoPermission when user is authed with token', function *() {
     var user = fixtures.users[0];
-    var session = yield Session.create({ ttl: 600, UserId: user.id });
+    var session = yield Session.create({ ttl: 600, UserId: user.id, ip: '127.0.0.1' });
     try {
       yield API.$header('x-session-token', session.token).sessions.post({ ttl: 600 });
     } catch (err) {

@@ -11,7 +11,7 @@ var randomFileName = function() {
   return chars.join('');
 };
 
-module.exports = function(dir, maxFileSize) {
+module.exports = function(dir, fileSizeLimit) {
   return function *(next) {
     if (!this.request.is('multipart/*')) {
       return yield next;
@@ -20,17 +20,27 @@ module.exports = function(dir, maxFileSize) {
     var parts = parse(this, {
       autoFields: true,
       limits: {
-        fileSize: maxFileSize
+        fileSize: fileSizeLimit * 1024 * 1024
       }
     });
 
-    // TODO policy
     this.filename = randomFileName();
     var tempFile = path.join(dir, this.filename);
+
     var part = yield parts;
     while (part) {
-      part.pipe(fs.createWriteStream(tempFile));
+      if (part.fieldname === 'file') {
+        this.file = part;
+        part.pipe(fs.createWriteStream(tempFile));
+      } else {
+        part.resume();
+      }
       part = yield parts;
+    }
+
+    if (this.file.truncated) {
+      fs.unlink(tempFile);
+      this.throw(new HTTP_ERROR.FileTooLarge(fileSizeLimit));
     }
 
     yield next;

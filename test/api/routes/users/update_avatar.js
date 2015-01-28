@@ -1,0 +1,79 @@
+var fs = require('bluebird').promisifyAll(require('fs'));
+var path = require('path');
+var config = require('config');
+
+describe('POST /users/:user/avatar', function() {
+  beforeEach(function *() {
+    yield fixtures.load();
+  });
+
+  it('should return Unauthorized when user is unauthorized', function *() {
+    try {
+      yield API.users('me').avatar.post();
+      throw new Error('should reject');
+    } catch (err) {
+      expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
+    }
+  });
+
+  it('should return NoPermission when change other\'s avatar', function *() {
+    var user = fixtures.users[0];
+    try {
+      yield API.$auth(user.email, user.password).users(fixtures.users[1].id).avatar.post();
+      throw new Error('should reject');
+    } catch (err) {
+      expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
+    }
+  });
+
+  it('should return NotFound when not found', function *() {
+    var user = fixtures.users[0];
+    try {
+      yield API.$auth(user.email, user.password).users(123456789).avatar.post();
+      throw new Error('should reject');
+    } catch (err) {
+      expect(err).to.be.an.error(HTTP_ERROR.NotFound);
+    }
+  });
+
+  describe('handle avatar', function() {
+    before(function() {
+      this.avatarDir = path.join(__dirname, '..', '..', '..', '..', 'api', 'upload', 'avatars');
+    });
+
+    afterEach(function *() {
+      fs.readdirSync(this.avatarDir).forEach(function(file) {
+        fs.unlinkSync(path.join(this.avatarDir, file));
+      }, this);
+    });
+
+    it('should change the avatar successfully', function *() {
+      var user = fixtures.users[0];
+      var result = yield API.$auth(user.email, user.password).users(user.id).avatar.post(null, null, {
+        formData: {
+          file: fs.createReadStream(
+            path.join(__dirname, '..', '..', '..', 'helpers', 'assets', 'avatar.png')
+          )
+        }
+      });
+      var avatarOrig = result.avatarOrig.split('/').pop();
+      var avatar = result.avatar.split('/').pop();
+      expect(fs.existsSync(path.join(this.avatarDir, avatarOrig))).to.eql(true);
+      expect(fs.existsSync(path.join(this.avatarDir, avatar))).to.eql(true);
+    });
+
+    it('should remove old avatars', function *() {
+      var user = fixtures.users[0];
+      for (var i = 0; i < 2; ++i) {
+        yield API.$auth(user.email, user.password).users(user.id).avatar.post(null, null, {
+          formData: {
+            file: fs.createReadStream(
+              path.join(__dirname, '..', '..', '..', 'helpers', 'assets', 'avatar.png')
+            )
+          }
+        });
+      }
+      expect(fs.readdirSync(this.avatarDir).length).to.eql(2);
+    });
+  });
+});

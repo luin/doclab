@@ -5,6 +5,8 @@ router.post('/', function *() {
 
   this.body = yield Session.create({
     ttl: this.request.body.ttl,
-    UserId: this.me.id
+    UserId: this.me.id,
+    ip: this.ip,
+    userAgent: this.request.get('user-agent')
   });
 });
