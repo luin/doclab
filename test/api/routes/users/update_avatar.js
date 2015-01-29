@@ -36,15 +36,9 @@ describe('POST /users/:user/avatar', function() {
     }
   });
 
-  describe('handle avatar', function() {
+  describe.only('handle avatar', function() {
     before(function() {
       this.avatarDir = path.join(__dirname, '..', '..', '..', '..', 'api', 'upload', 'avatars');
-    });
-
-    afterEach(function *() {
-      fs.readdirSync(this.avatarDir).forEach(function(file) {
-        fs.unlinkSync(path.join(this.avatarDir, file));
-      }, this);
     });
 
     it('should change the avatar successfully', function *() {
@@ -60,20 +54,24 @@ describe('POST /users/:user/avatar', function() {
       var avatar = result.avatar.split('/').pop();
       expect(fs.existsSync(path.join(this.avatarDir, avatarOrig))).to.eql(true);
       expect(fs.existsSync(path.join(this.avatarDir, avatar))).to.eql(true);
+      fs.unlinkSync(path.join(this.avatarDir, avatarOrig));
+      fs.unlinkSync(path.join(this.avatarDir, avatar));
     });
 
     it('should remove old avatars', function *() {
       var user = fixtures.users[0];
+      var res = [];
       for (var i = 0; i < 2; ++i) {
-        yield API.$auth(user.email, user.password).users(user.id).avatar.post(null, null, {
+        res.push(yield API.$auth(user.email, user.password).users(user.id).avatar.post(null, null, {
           formData: {
             file: fs.createReadStream(
               path.join(__dirname, '..', '..', '..', 'helpers', 'assets', 'avatar.png')
             )
           }
-        });
+        }));
       }
-      expect(fs.readdirSync(this.avatarDir).length).to.eql(2);
+      expect(fs.existsSync(path.join(this.avatarDir, res[0].avatarOrig.split('/').pop()))).to.eql(false);
+      expect(fs.existsSync(path.join(this.avatarDir, res[0].avatar.split('/').pop()))).to.eql(false);
     });
   });
 });
