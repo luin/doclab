@@ -1,4 +1,22 @@
-require('./plugins/jquery_api');
+if (top !== window) {
+  alert('For security reasons, framing is not allowed.');
+  top.location.replace(document.location);
+}
+
+require('./plugins/jquery-api');
+
+require('./vendors/jquery-pjax');
+var $ = require('jquery');
+$(document).pjax('#pjaxContainer a', '#pjaxContainer', {
+  fragment: '#pjaxContainer'
+});
+var NProgress = require('nprogress');
+$(document).on('pjax:send', function() {
+  NProgress.start();
+});
+$(document).on('pjax:complete', function() {
+  NProgress.done();
+});
 
 require('./components');
 

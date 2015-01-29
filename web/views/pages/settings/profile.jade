@@ -32,13 +32,13 @@ block content
         .panel
           h3 Profile
           .panel__content
-            form.form.form--stacked(method='post', action='/projects/#{currentProject.id}')
+            form.form.form--stacked(method='post', action='/users/me')
               +form_method('patch')
               .form__group
                 label(for='userName') Your name
                 input#userName(type='text', name='name', value='#{me.name}')
               .form__group
                 label(for='userEmail') Email
-                input#userEmail(type='text', name='name', value='#{me.email}')
+                input#userEmail(type='text', name='email', value='#{me.email}')
               .form__group
                 button.button.button--primary(type='submit') Update profile

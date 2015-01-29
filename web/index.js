@@ -40,6 +40,7 @@ app.use(require('koa-flash')());
 app.use(function *(next) {
   this.locals.flash = this.flash;
   this.locals.req = this.request;
+  this.request.pjax = this.request.get('x-pjax');
 
   var _this = this;
   this.locals.url = function(path) {
