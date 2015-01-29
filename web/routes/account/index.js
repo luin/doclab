@@ -5,6 +5,13 @@ router.get('/signin', function *() {
   yield this.render('account/signin');
 });
 
+router.post('/signout', function *() {
+  this.cookies.set('session-token');
+  this.redirect(this.query.next || '/');
+
+  this.api.sessions('current').delete().then(function() {});
+});
+
 router.post('/signin', function *() {
   var remember = this.request.body.remember === 'on';
   var result = yield this.api

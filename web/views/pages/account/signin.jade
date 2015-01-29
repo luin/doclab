@@ -1,12 +1,20 @@
 extends ../../layouts/simple
+block menu
+
 block content
-  form(method='post', action='/account/signin')
-    p
-      input(type='email', name='email', placeholder="Email")
-    p
-      input(type='password', name='password', placeholder="Password")
-    p
-      label Remember
-        input(type='checkbox', name='remember')
-    p
-      button(type='submit') 提交
+  .panel
+    h3 Sign In
+      button.button.button--small Sign up
+    .panel__content
+      form.form.form--stacked(method='post', action='/account/signin')
+        .form__group
+          label(for='userEmail') Email
+          input#userEmail(type='email', name='email', placeholder="Email")
+        .form__group
+          label(for='userPassword') Password
+          input#userPassword(type='password', name='password', placeholder="Password")
+        .form__group
+          label Remember
+            input(type='checkbox', name='remember')
+        .form__group
+          button.button.button--primary(type='submit') Sign in

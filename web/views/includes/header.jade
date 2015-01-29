@@ -1,6 +1,6 @@
 header.l-main-header
   .container
-    h1.logo
+    h1.logo.logo--header
       a(href='/') WikiLab
     .project-search
       form(action='/search', method='get')
@@ -12,7 +12,7 @@ header.l-main-header
           li
             a(href='/projects/#{currentProject.id}/settings')
               span.header-menu__icon.docicon.docicon-setting
-    ul.header-menu.l-main-header__user-nav
+    ul.header-menu.pull-right
       li.header-menu__item
         a(href='/teams', title='Teams')
           span.header-menu__icon.docicon.docicon-team
@@ -35,4 +35,5 @@ header.l-main-header
           li
             a(href='/settings') Settings
           li
-            a(href='/account') Sign out
+            form(method='post', action='/account/signout').js-form__container
+              a.js-form__target(href='#') Sign out

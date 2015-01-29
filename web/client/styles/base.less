@@ -35,6 +35,17 @@ h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
 
+header {
+  a {
+    color: #333;
+    text-decoration: none;
+    &:hover {
+      color: @color-link;
+      text-decoration: none;
+    }
+  }
+}
+
 .clearfix {
   &:after {
     content: '';
@@ -80,5 +91,5 @@ fieldset {
   }
 }
 
-.left { float: left; }
-.right { float: right; }
+.pull-left { float: left; }
+.pull-right { float: right; }

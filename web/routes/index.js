@@ -5,7 +5,7 @@ router.get('/', middlewares.me(), middlewares.currentProject(), function *() {
   this.redirect('/projects/' + this.locals.currentProject.id);
 });
 
-router.get('/launchpad', function *() {
+router.get('/launchpad', middlewares.me(), function *() {
   this.locals.projects = yield this.api.projects.get();
   yield this.render('launchpad');
 });

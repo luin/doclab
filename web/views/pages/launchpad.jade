@@ -1,15 +1,14 @@
 extends ../layouts/simple
 block content
-  .container.container--narrow
-    .panel
-      h3 Projects
-        button.button.button--small Create new project
-      .panel__content
-        ul.projects.clearfix
-          each project in projects
-            li.projects__item
-              form(method='post', action='/launchpad').js-form__container
-                input(type='hidden', name='projectId', value='#{project.id}')
-                a.js-form__target(href='#')
-                  p.projects__name #{project.name}
-                  p.projects__description #{project.description}
+  .panel
+    h3 Projects
+      button.button.button--small Create new project
+    .panel__content
+      ul.projects.clearfix
+        each project in projects
+          li.projects__item
+            form(method='post', action='/launchpad').js-form__container
+              input(type='hidden', name='projectId', value='#{project.id}')
+              a.js-form__target(href='#')
+                p.projects__name #{project.name}
+                p.projects__description #{project.description}
