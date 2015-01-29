@@ -10,3 +10,9 @@ router.post('/', function *() {
     userAgent: this.request.get('user-agent')
   });
 });
+
+router.delete('/current', function *() {
+  this.assert(this.me.currentSession, new HTTP_ERROR.NoPermission());
+  yield this.me.currentSession.destroy();
+  this.body = 'ok';
+});

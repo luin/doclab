@@ -49,7 +49,9 @@ module.exports = function(DataTypes) {
         if (Math.random() < 0.01) {
           yield Session.destroy({ where: { expiredAt: { lt: now } } });
         }
-        return yield session.getUser();
+        var user = yield session.getUser();
+        user.setDataValue('currentSession', session);
+        return user;
       }
     }
   }];
