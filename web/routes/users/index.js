@@ -1,6 +1,12 @@
 var router = module.exports = new (require('koa-router'))();
 var config = require('config');
 
+router.patch('/me', function *() {
+  yield this.api.users('me').patch(this.request.body);
+  this.flash = { msgs: 'Updated successfully' };
+  this.redirect(this.query.next || '/settings/profile');
+});
+
 router.post('/me/avatar', function *() {
   if (!this.request.is('multipart/*')) {
     return yield next;

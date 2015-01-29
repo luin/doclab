@@ -14,7 +14,6 @@ $('.js-file-form').submit(function(e) {
     NProgress.done();
     $('.js-avatar-preview').attr('src', user.avatarOrig);
   }).fail(function(err) {
-    console.log(err);
     NProgress.done();
     alert(err.responseJSON.error || err.responseText);
   });
