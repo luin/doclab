@@ -14,7 +14,6 @@ var web = require('./web');
 
 var app = require('http').createServer(function(req, res) {
   var url = parseurl(req);
-  console.log(url.pathname);
   if (match('/api', url.pathname)) {
     api.callback()(req, res);
   } else {

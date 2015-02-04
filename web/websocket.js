@@ -4,7 +4,6 @@ var cookie = require('cookie');
 var config = require('config');
 var ot = require('ot-server').createClient(config.redis);
 
-
 module.exports = function(server) {
   var wss = new WebSocketServer({
     server: server,
