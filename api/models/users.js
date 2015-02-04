@@ -49,8 +49,10 @@ module.exports = function(DataTypes) {
         var ret = Instance.prototype.toJSON.call(this);
         delete ret.password;
 
-        ret.avatar = config.site.url + '/api/upload/avatars/' + ret.avatar;
-        ret.avatarOrig = config.site.url + '/api/upload/avatars/' + ret.avatarOrig;
+        var baseUrl = (config.site.ssl ? 'https://' : 'http://') + config.site.host;
+
+        ret.avatar = baseUrl + '/api/upload/avatars/' + ret.avatar;
+        ret.avatarOrig = baseUrl + '/api/upload/avatars/' + ret.avatarOrig;
         return ret;
       },
       comparePassword: function *(password) {

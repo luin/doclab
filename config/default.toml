@@ -1,6 +1,7 @@
 [site]
 port = 4001
-url  = 'http://localhost:4001'
+ssl = false
+host  = 'localhost:4001'
 
 [database]
 dialect = "mysql"

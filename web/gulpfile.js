@@ -57,6 +57,10 @@ gulp.task('assets', function() {
   return gulp.src('./client/assets/**/*')
     .pipe(gulp.dest('build/assets/'));
 });
+gulp.task('editor', function() {
+  return gulp.src('./client/editor/**/*')
+    .pipe(gulp.dest('build/editor/'));
+});
 gulp.task('less', function() {
   var plugins = [autoprefix];
   if (production) {
@@ -82,31 +86,36 @@ gulp.task('less', function() {
 });
 
 gulp.task('browserify', function() {
-  var bundler = browserify('./client/scripts/index.js', {
-    debug: !production,
-    cache: {}
+  ['index.js', 'editor.js'].forEach(function(filename) {
+    var bundler = browserify('./client/scripts/' + filename, {
+      debug: !production,
+      cache: {},
+      paths: ['client/editor/scripts']
+    });
+    if (watch) {
+      bundler = watchify(bundler);
+    }
+    var rebundle = function() {
+      gutil.log('Starting ' + gutil.colors.blue('rebundle') + '...');
+      return bundler.bundle()
+        .on('error', handleError('Browserify'))
+        .pipe(source(filename))
+        .pipe(gulpif(production, require('vinyl-buffer')()))
+        .pipe(gulpif(production, require('gulp-uglify')()))
+        .pipe(gulp.dest('build/scripts/'))
+        .on('end', function() {
+          gutil.log('Finished ' + gutil.colors.blue('rebundle'));
+        });
+    };
+    bundler.on('update', rebundle);
+    rebundle();
   });
-  if (watch) {
-    bundler = watchify(bundler);
-  }
-  var rebundle = function() {
-    gutil.log('Starting ' + gutil.colors.blue('rebundle') + '...');
-    return bundler.bundle()
-      .on('error', handleError('Browserify'))
-      .pipe(source('index.js'))
-      .pipe(gulpif(production, require('vinyl-buffer')()))
-      .pipe(gulpif(production, require('gulp-uglify')()))
-      .pipe(gulp.dest('build/scripts/'))
-      .on('end', function() {
-        gutil.log('Finished ' + gutil.colors.blue('rebundle'));
-      });
-  };
-  bundler.on('update', rebundle);
-  return rebundle();
 });
 
-gulp.task('watch', ['assets', 'less', 'browserify'], function() {
+gulp.task('watch', ['assets', 'editor', 'less', 'browserify'], function() {
   gulp.watch('./client/styles/**/*.less', ['less']);
+  gulp.watch('./client/assets/**/*', ['assets']);
+  gulp.watch('./client/editor/**/*', ['editor']);
   gutil.log(gutil.colors.bgGreen('Watching for changes...'));
 });
 
@@ -114,6 +123,7 @@ gulp.task('watch', ['assets', 'less', 'browserify'], function() {
 gulp.task('build', [
   'clean',
   'assets',
+  'editor',
   'less',
   'browserify'
 ]);

@@ -37,6 +37,8 @@ app.use(require('koa-views')('views/pages', { default: 'jade' }));
 
 app.use(require('koa-session')({ signed: false }, app));
 app.use(require('koa-flash')());
+
+var config = require('config');
 app.use(function *(next) {
   this.locals.flash = this.flash;
   this.locals.req = this.request;
@@ -46,6 +48,7 @@ app.use(function *(next) {
   this.locals.url = function(path) {
     return _this.host + path;
   };
+  this.locals.config = config;
   yield next;
 });
 
@@ -61,3 +64,4 @@ app.use(require('koa-methodoverride')());
 require('koa-mount-directory')(app, require('path').join(__dirname, 'routes'));
 
 module.exports = app;
+app.websocket = require('./websocket');

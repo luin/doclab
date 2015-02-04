@@ -22,6 +22,8 @@ var app = require('http').createServer(function(req, res) {
   }
 });
 
+web.websocket(app);
+
 if (require.main === module) {
   app.listen(require('config').site.port);
 } else {

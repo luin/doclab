@@ -21,15 +21,6 @@ block content
               a.sidebar-menu__item(href='/settings/#{val}') #{key}
       .column.two-thirds
         .panel
-          h3 Avatar
-          .panel__content
-            form.form.form--stacked.js-file-form.avatar-uploader(method='post', enctype='multipart/form-data', action='/api/users/me/avatar?sessiontoken=#{sessiontoken}')
-              .form__group
-                img.js-avatar-preview(src='#{me.avatarOrig}')
-                .form__upload-input.button.button--primary Upload new avatar
-                  input.js-form__auto-submit(type='file', name='file')
-                p.avatar-uploader__meta You can also drag and drop a picture from your computer.
-        .panel
           h3 Profile
           .panel__content
             form.form.form--stacked(method='post', action='/users/me')
@@ -42,3 +33,12 @@ block content
                 input#userEmail(type='text', name='email', value='#{me.email}')
               .form__group
                 button.button.button--primary(type='submit') Update profile
+        .panel
+          h3 Profile picture
+          .panel__content
+            form.form.form--stacked.js-file-form.avatar-uploader(method='post', enctype='multipart/form-data', action='/api/users/me/avatar?sessiontoken=#{sessiontoken}')
+              .form__group
+                img.js-avatar-preview(src='#{me.avatarOrig}')
+                .form__upload-input.button.button--primary Upload new picture
+                  input.js-form__auto-submit(type='file', name='file')
+                p.avatar-uploader__meta You can also drag and drop a picture from your computer.

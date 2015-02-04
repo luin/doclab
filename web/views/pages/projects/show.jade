@@ -7,7 +7,7 @@ block content
           ul.collections__list.js-sortable--collection
             each collection in currentProject.collections
               li.collections__list__item(data-collection-id='#{collection.id}')
-                a.collections__list__link(href='/collections/#{collection.id}')
+                a.collections__list__link(data-nopajax, href='/collections/#{collection.id}')
                   p.general-list__title #{collection.name}
                   p.general-list__description #{collection.description}
             li.collections__list__item.collections__list__item--button

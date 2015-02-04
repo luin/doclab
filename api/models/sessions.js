@@ -29,7 +29,9 @@ module.exports = function(DataTypes) {
     updatedAt: false,
     hooks: {
       beforeCreate: function (session) {
-        session.expiredAt = new Date(session.createdAt.valueOf() + session.ttl * 1000);
+        var now = new Date();
+        session.createdAt = now;
+        session.expiredAt = new Date(now.valueOf() + session.ttl * 1000);
       }
     },
     classMethods: {

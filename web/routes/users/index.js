@@ -4,7 +4,7 @@ var config = require('config');
 router.patch('/me', function *() {
   yield this.api.users('me').patch(this.request.body);
   this.flash = { msgs: 'Updated successfully' };
-  this.redirect(this.query.next || '/settings/profile');
+  this.redirect(this.request.get('referer') || '/');
 });
 
 router.post('/me/avatar', function *() {
