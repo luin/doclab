@@ -29,7 +29,7 @@ module.exports = function(DataTypes) {
     timestamps: true,
     updatedAt: false,
     hooks: {
-      beforeCreate: function *(news) {
+      beforeValidate: function *(news) {
         news.content = JSON.stringify(news.content);
       }
     }
