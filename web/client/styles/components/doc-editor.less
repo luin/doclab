@@ -1,5 +1,6 @@
 .doc-editor {
   overflow: auto;
+  padding-bottom: 40px;
   .simditor {
     border-top: none;
     border-bottom: none;
@@ -7,4 +8,37 @@
 
   .simditor-wrapper {
   }
+
+}
+
+input.doc-editor__title {
+  font-size: 20px;
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid #c9d8db;
+  border-top: none;
+  box-shadow: none;
+
+  &:focus {
+    border: 1px solid #c9d8db;
+    border-top: none;
+    box-shadow: none;
+  }
+}
+
+.doc-editor__content {
+  display: none;
+}
+
+.doc-editor__toolbar {
+  z-index: 99;
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  background: #fff;
+  padding: 0 10px;
+  border: 1px solid #c9d8db;
+  border-bottom: none;
+  line-height: 40px;
 }

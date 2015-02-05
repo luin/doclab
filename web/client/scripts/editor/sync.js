@@ -1,3 +1,5 @@
+var diff = require('ot-client').diff;
+
 module.exports = function(editor, UUID, websocketAddress) {
   var old = transformValue(editor.getValue());
 

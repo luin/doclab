@@ -9,7 +9,10 @@ html
   body
     block content
       .container.doc-editor
-        textarea#editor(placeholder="这里输入内容", autofocus)
+        input.doc-editor__title(type="text", placeholder="标题")
+        textarea.doc-editor__content.js-editor(placeholder="这里输入内容", autofocus)
+        .doc-editor__toolbar
+          button.button.button--success 保存
     block scripts
       script.
         var doclab = {
