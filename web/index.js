@@ -42,6 +42,7 @@ var config = require('config');
 app.use(function *(next) {
   this.locals.flash = this.flash;
   this.locals.req = this.request;
+  this.locals.ctx = this;
   this.request.pjax = this.request.get('x-pjax');
 
   var _this = this;
