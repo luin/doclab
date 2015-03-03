@@ -9,11 +9,11 @@ function getHeight($element, includeHeight) {
     return value;
   };
   var height = includeHeight ? $element.height() : 0;
-  return log(height) +
-         log(parseInt($element.css('border-top-width'), 10)) +
-         log(parseInt($element.css('border-bottom-width'), 10)) +
-         log(parseInt($element.css('padding-top'), 10)) +
-         log(parseInt($element.css('padding-bottom'), 10));
+  return height +
+         parseInt($element.css('border-top-width'), 10) +
+         parseInt($element.css('border-bottom-width'), 10) +
+         parseInt($element.css('padding-top'), 10) +
+         parseInt($element.css('padding-bottom'), 10);
 }
 
 function autolayout() {
