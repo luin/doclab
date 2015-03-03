@@ -86,7 +86,7 @@ gulp.task('less', function() {
 });
 
 gulp.task('browserify', function() {
-  ['index.js', 'editor.js'].forEach(function(filename) {
+  ['base.js', 'app.js', 'editor.js'].forEach(function(filename) {
     var bundler = browserify('./client/scripts/' + filename, {
       debug: !production,
       cache: {},
