@@ -1,12 +1,10 @@
-doclab-api
+Doclab
 =============
 
-Doclab API
-
-![Build Status](https://travis-ci.org/doclab/doclab-api.svg?branch=master)
-[![Code Climate](https://codeclimate.com/github/doclab/doclab-api/badges/gpa.svg)](https://codeclimate.com/github/doclab/doclab-api)
-[![Test Coverage](https://codeclimate.com/github/doclab/doclab-api/badges/coverage.svg)](https://codeclimate.com/github/doclab/doclab-api)
-[![Dependency Status](https://david-dm.org/doclab/doclab-api.svg)](https://david-dm.org/doclab/doclab-api)
+![Build Status](https://travis-ci.org/luin/doclab.svg?branch=master)
+[![Code Climate](https://codeclimate.com/github/luin/doclab/badges/gpa.svg)](https://codeclimate.com/github/luin/doclab)
+[![Test Coverage](https://codeclimate.com/github/luin/doclab/badges/coverage.svg)](https://codeclimate.com/github/luin/doclab)
+[![Dependency Status](https://david-dm.org/luin/doclab.svg)](https://david-dm.org/luin/doclab)
 
 Install
 -------
