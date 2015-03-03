@@ -1,6 +1,36 @@
 .dir {
   float: left;
   width: 300px;
-  margin-left: -100%;
-  // border-right: 1px solid @color-collection-split;
+  border-right: 1px solid @color-collection-split;
+  min-height: 100%;
+}
+
+.dir__item {
+  > a {
+    display: block;
+    font-weight: normal;
+    padding: 10px 15px;
+    border-bottom: 0;
+    color: #364149;
+    background: transparent;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+
+    &:hover, &.is-active {
+      color: #008cff;
+      text-decoration: none;
+    }
+  }
+}
+
+.dir__item--placeholder {
+  height: 39px;
+  margin-left: 20px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dir ul ul {
+  padding-left: 20px;
 }
