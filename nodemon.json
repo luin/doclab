@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "web/client/**/*",
+    "web/build/**/*",
+    "api/upload/**/*",
+    "test/**/*",
+    "node_modules/**/*"
+  ]
+}
