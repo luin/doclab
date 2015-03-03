@@ -5,7 +5,7 @@ host  = 'localhost:4001'
 
 [database]
 dialect = "mysql"
-name    = "wikilab"
+name    = "doclab"
 user    = ""
 pass    = ""
 log     = false

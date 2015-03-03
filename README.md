@@ -1,17 +1,17 @@
-wikilab-api
+doclab-api
 =============
 
-WikiLab API
+Doclab API
 
-![Build Status](https://travis-ci.org/wikilab/wikilab-api.svg?branch=master)
-[![Code Climate](https://codeclimate.com/github/wikilab/wikilab-api/badges/gpa.svg)](https://codeclimate.com/github/wikilab/wikilab-api)
-[![Test Coverage](https://codeclimate.com/github/wikilab/wikilab-api/badges/coverage.svg)](https://codeclimate.com/github/wikilab/wikilab-api)
-[![Dependency Status](https://david-dm.org/wikilab/wikilab-api.svg)](https://david-dm.org/wikilab/wikilab-api)
+![Build Status](https://travis-ci.org/doclab/doclab-api.svg?branch=master)
+[![Code Climate](https://codeclimate.com/github/doclab/doclab-api/badges/gpa.svg)](https://codeclimate.com/github/doclab/doclab-api)
+[![Test Coverage](https://codeclimate.com/github/doclab/doclab-api/badges/coverage.svg)](https://codeclimate.com/github/doclab/doclab-api)
+[![Dependency Status](https://david-dm.org/doclab/doclab-api.svg)](https://david-dm.org/doclab/doclab-api)
 
 Install
 -------
 
-    npm install wikilab-api
+    npm install doclab-api
 
 HTTP API
 -------

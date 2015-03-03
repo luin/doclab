@@ -1,7 +1,7 @@
 {
-  "name": "wikilab-api",
+  "name": "doclab",
   "version": "1.0.0",
-  "description": "The API of WikiLab",
+  "description": "An elegant, open-source and non-technical users friendly wiki-based system for collaborative.",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --harmony",
@@ -10,17 +10,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:wikilab/wikilab-model.git"
+    "url": "git@github.com:luin/doclab.git"
   },
   "keywords": [
-    "wikilab"
+    "doclab"
   ],
-  "author": "Zihua Li",
+  "author": "luin<i@zihua.li>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wikilab/wikilab-model/issues"
+    "url": "https://github.com/luin/doclab/issues"
   },
-  "homepage": "https://github.com/wikilab/wikilab-model",
+  "homepage": "https://github.com/luin/doclab",
   "dependencies": {
     "basic-auth": "^1.0.0",
     "bcrypt": "^0.8.0",
