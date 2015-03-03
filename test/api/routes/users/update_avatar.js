@@ -36,7 +36,7 @@ describe('POST /users/:user/avatar', function() {
     }
   });
 
-  describe.only('handle avatar', function() {
+  describe('handle avatar', function() {
     before(function() {
       this.avatarDir = path.join(__dirname, '..', '..', '..', '..', 'api', 'upload', 'avatars');
     });
