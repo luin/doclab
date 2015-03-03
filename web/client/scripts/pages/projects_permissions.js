@@ -1,5 +1,3 @@
-var $ = require('jquery');
-
 var permissionOrder = ['none', 'read', 'write', 'admin'];
 
 $(document).on('ready pjax:success', function() {

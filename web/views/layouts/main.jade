@@ -1,21 +1,17 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title WikiLab
-    link(href='/build/styles/index.css', media='all', rel='stylesheet', type='text/css')
-  body
-    include ../mixins/modal
-    include ../mixins/alert
-    include ../mixins/form_method
-    block header
-      include ../includes/header
-    +alert(flash)
-    #pjaxContainer
-      block content
-    block footer
-      include ../includes/footer
-    block scripts
-      script.
-        var currentProjectId = !{JSON.stringify(currentProject.id)};
-      script(src='/build/scripts/index.js')
+extends base
+
+block body
+  include ../mixins/modal
+  include ../mixins/alert
+  include ../mixins/form_method
+  block header
+    include ../includes/header
+  +alert(flash)
+  #pjaxContainer
+    block content
+  block footer
+    include ../includes/footer
+  script(src='/build/scripts/app.js')
+  script.
+    var currentProjectId = !{JSON.stringify(currentProject.id)};
+  block scripts

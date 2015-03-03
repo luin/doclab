@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var Simditor = require('../editor/scripts/simditor');
 
 var editor = new Simditor({

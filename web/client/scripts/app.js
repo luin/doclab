@@ -1,12 +1,3 @@
-if (top !== window) {
-  alert('For security reasons, framing is not allowed.');
-  top.location.replace(document.location);
-}
-
-require('./plugins/jquery-api');
-
-require('./vendors/jquery-pjax');
-var $ = require('jquery');
 $(document).pjax('#pjaxContainer a:not([data-nopjax])', '#pjaxContainer', {
   fragment: '#pjaxContainer'
 });
@@ -26,3 +17,6 @@ require('./components');
 require('./pages/index');
 require('./pages/projects_permissions');
 require('./pages/settings_profile');
+
+require('./vendors/jquery.mjs.nestedsortable.js');
+require('./pages/doc');

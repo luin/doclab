@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var NProgress = require('nprogress');
 
 $('.js-file-form').submit(function(e) {

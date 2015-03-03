@@ -1,27 +1,21 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title Launchpad - WikiLab
-    link(href='/build/styles/index.css', media='all', rel='stylesheet', type='text/css')
-  body.simple
-    header.l-simple-header
-      .container.container--narrow
-        .logo.logo--header.pull-left
-          a(href='/') WikiLab
-        block menu
-          ul.header-menu.pull-right
-            li.header-menu__item.js-menu__container
-              a.js-menu__target(href='#')
-                img.avatar(src="#{me.avatar}", alt='#{me.name}')
-              ul.header-menu__submenu.js-menu__content
-                li
-                  a(href='/account') Profile
-                li
-                  a(href='/settings') Settings
-                li
-                  a(href='/account') Sign out
+extends base
+
+block body
+  header.l-simple-header
     .container.container--narrow
-      block content
-    block scripts
-      script(src='/build/scripts/index.js')
+      .logo.logo--header.pull-left
+        a(href='/') WikiLab
+      block menu
+        ul.header-menu.pull-right
+          li.header-menu__item.js-menu__container
+            a.js-menu__target(href='#')
+              img.avatar(src="#{me.avatar}", alt='#{me.name}')
+            ul.header-menu__submenu.js-menu__content
+              li
+                a(href='/account') Profile
+              li
+                a(href='/settings') Settings
+              li
+                a(href='/account') Sign out
+  .container.container--narrow
+    block content

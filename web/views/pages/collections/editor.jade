@@ -1,23 +1,22 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title WikiLab
-    link(href='/build/styles/index.css', media='all', rel='stylesheet', type='text/css')
-    link(rel="stylesheet", type="text/css", href="/build/editor/styles/font-awesome.css")
-    link(rel="stylesheet", type="text/css", href="/build/editor/styles/simditor.css")
-  body
-    block content
-      .container.doc-editor
-        input.doc-editor__title(type="text", placeholder="标题")
-        textarea.doc-editor__content.js-editor(placeholder="这里输入内容", autofocus)
-        .doc-editor__toolbar
-          button.button.button--success 保存
-    block scripts
-      script.
-        var doclab = {
-          ssl: #{config.site.ssl ? 'true' : 'false'},
-          host: "#{config.site.host}",
-          UUID: #{locals.UUID ? '"' + locals.UUID + '"' : 'false'}
-        };
-      script(src='/build/scripts/editor.js')
+extends ../../layouts/base
+
+block styles
+  link(rel="stylesheet", type="text/css", href="/build/editor/styles/font-awesome.css")
+  link(rel="stylesheet", type="text/css", href="/build/editor/styles/simditor.css")
+
+block body
+  .container.doc-editor
+    form.js-doc-form(method='post', action='/collections/#{ctx.params.collectionId}/docs')
+      input.doc-editor__title(type="text", name="title", placeholder="标题")
+      textarea.doc-editor__content.js-doc-editor(placeholder="这里输入内容", autofocus)
+      .doc-editor__toolbar
+        button(type="submit").button.button--success 保存
+
+block scripts
+  script.
+    var doclab = {
+      ssl: #{config.site.ssl ? 'true' : 'false'},
+      host: "#{config.site.host}",
+      UUID: #{locals.UUID ? '"' + locals.UUID + '"' : 'false'}
+    };
+  script(src='/build/scripts/editor.js')

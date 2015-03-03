@@ -1,4 +1,3 @@
-var $ = require('jquery');
 
 (function() {
   require('jquery-ui/sortable');

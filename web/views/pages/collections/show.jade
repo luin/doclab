@@ -1,7 +1,17 @@
 extends ../../layouts/collection
 block content
-  section.article
-    header
-      h1 #{collection.name}
-    .article--body
   aside.dir
+    ul
+      each item in dirs
+        li.dir__item
+          a(href="/collections/#{collection.id}/docs/#{item.UUID}", class=item.UUID === doc.UUID ? 'is-active' : '') #{item.title}
+  .article
+    .article__toolbar
+      h2 #{collection.name}
+    section.article__body
+      header
+        h1 #{doc.title}
+      article !{doc.content}
+
+block scripts
+  script(src='/build/scripts/app.js')
