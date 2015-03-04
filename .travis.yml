@@ -5,7 +5,7 @@ node_js:
 
 addons:
   code_climate:
-    repo_token: 813ed63f61309afa14092c9928f9ffee8b7b4187b1c53b4d89048af8a1e06aa1
+    repo_token: dc2d6c4eea32e05ae490a266bd5d456a98ebfd1a43bf6b8326b1838c86e52b89
 
 script:
   - npm run test:cov
