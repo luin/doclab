@@ -7,7 +7,7 @@ describe('GET /teams', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.teams.post();
+      yield route.get('/teams');
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -15,7 +15,9 @@ describe('GET /teams', function() {
   });
 
   it('should return all teams', function *() {
-    var teams = yield API.$auth(this.user.email, this.user.password).teams.get();
+    var teams = yield route.get('/teams', {
+      auth: [this.user.email, this.user.password]
+    });
     expect(teams).to.have.length(fixtures.teams.length);
 
     var team = teams[0];
@@ -25,7 +27,10 @@ describe('GET /teams', function() {
 
   describe('?fields=users', function() {
     it('should include specified fields', function *() {
-      var teams = yield API.$auth(this.user.email, this.user.password).teams.get({ fields: 'users' });
+      var teams = yield route.get('/teams', {
+        params: { fields: 'users' },
+        auth: [this.user.email, this.user.password]
+      });
       var team = teams[0];
       expect(team).to.have.property('users');
     });

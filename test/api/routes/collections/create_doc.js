@@ -12,7 +12,7 @@ describe('POST /collections/:collectionId/docs', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.collections(fixtures.collections[0].id).docs.post();
+      yield route.post(`/collections/${fixtures.collections[0].id}/docs`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -21,7 +21,9 @@ describe('POST /collections/:collectionId/docs', function() {
 
   it('should return NotFound when collection is not found', function *() {
     try {
-      yield API.$auth(this.writer.email, this.writer.password).collections(1993).docs.post();
+      yield route.post('/collections/1993/docs', null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -31,7 +33,9 @@ describe('POST /collections/:collectionId/docs', function() {
   it('should return NoPermission when the user don\'t have write permission', function *() {
     var collection = fixtures.collections[0];
     try {
-      yield API.$auth(this.reader.email, this.reader.password).collections(collection.id).docs.post();
+      yield route.post(`/collections/${collection.id}/docs`, null, {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -40,15 +44,19 @@ describe('POST /collections/:collectionId/docs', function() {
 
   it('should return InvalidParameter when parameters are invalid', function *() {
     var collection = fixtures.collections[0];
-    var base = API.$auth(this.writer.email, this.writer.password).collections(collection.id).docs;
+    var url = `/collections/${collection.id}/docs`;
     try {
-      yield base.post();
+      yield route.post(url, null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
     }
     try {
-      yield base.post({ title: '123' });
+      yield route.post(url, { title: '123' }, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
@@ -57,9 +65,11 @@ describe('POST /collections/:collectionId/docs', function() {
 
   it('should create a new doc', function *() {
     var collection = fixtures.collections[0];
-    var doc = yield API.$auth(this.writer.email, this.writer.password).collections(collection.id).docs.post({
+    var doc = yield route.post(`/collections/${collection.id}/docs`, {
       title: 'new title',
       content: 'new content'
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
     expect(doc.title).to.eql('new title');
     expect(doc.content).to.eql('new content');
@@ -74,10 +84,12 @@ describe('POST /collections/:collectionId/docs', function() {
     var collection = fixtures.collections[0];
     var parentDoc = fixtures.docs[0];
     yield collection.addDocs(parentDoc);
-    var doc = yield API.$auth(this.writer.email, this.writer.password).collections(collection.id).docs.post({
+    var doc = yield route.post(`/collections/${collection.id}/docs`, {
       title: 'new title',
       content: 'new content',
       parentUUID: parentDoc.UUID
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
     expect(doc.parentUUID).to.eql(parentDoc.UUID);
   });
@@ -85,10 +97,12 @@ describe('POST /collections/:collectionId/docs', function() {
   it('should return InvalidParameter and rollback when parentUUID is invalid', function *() {
     var collection = fixtures.collections[0];
     try {
-      yield API.$auth(this.writer.email, this.writer.password).collections(collection.id).docs.post({
+      yield route.post(`/collections/${collection.id}/docs`, {
         title: 'new title',
         content: 'new content',
         parentUUID: 'invalid uuid'
+      }, {
+        auth: [this.writer.email, this.writer.password]
       });
     } catch(err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);

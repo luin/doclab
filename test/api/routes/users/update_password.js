@@ -5,7 +5,7 @@ describe('PUT /users/:user/password', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.users('me').password.put();
+      yield route.put('/users/me/password');
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -15,7 +15,9 @@ describe('PUT /users/:user/password', function() {
   it('should return NoPermission when change other\'s password', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).users(fixtures.users[1].id).password.put();
+      yield route.put(`/users/${fixtures.users[1].id}/password`, null, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -25,7 +27,9 @@ describe('PUT /users/:user/password', function() {
   it('should return NotFound when not found', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).users(123456789).password.put();
+      yield route.put('/users/123456789/password', null, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -35,8 +39,10 @@ describe('PUT /users/:user/password', function() {
   it('should return WrongPassword with wrong old password', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).users(user.id).password.put({
+      yield route.put(`/users/${user.id}/password`, {
         newPassword: 'updated password',
+      }, {
+        auth: [user.email, user.password]
       });
       throw new Error('should reject');
     } catch (err) {
@@ -46,9 +52,11 @@ describe('PUT /users/:user/password', function() {
 
   it('should change the password successfully with correct old password', function *() {
     var user = fixtures.users[0];
-    yield API.$auth(user.email, user.password).users(user.id).password.put({
+    yield route.put(`/users/${user.id}/password`, {
       oldPassword: user.password,
       newPassword: 'new password'
+    }, {
+      auth: [user.email, user.password]
     });
     yield user.reload();
     expect(yield user.comparePassword('new password')).to.eql(true);

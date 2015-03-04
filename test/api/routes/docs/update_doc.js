@@ -15,7 +15,7 @@ describe('PATCH /docs/:docUUID', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.docs(this.doc.UUID).patch();
+      yield route.patch(`/docs/${this.doc.UUID}`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -24,7 +24,9 @@ describe('PATCH /docs/:docUUID', function() {
 
   it('should return NotFound when doc is not found', function *() {
     try {
-      yield API.$auth(this.writer.email, this.writer.password).docs('not exists UUID').patch();
+      yield route.patch('/docs/not_exists_UUID', null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -33,7 +35,9 @@ describe('PATCH /docs/:docUUID', function() {
 
   it('should return NoPermission when the user don\'t have write permission', function *() {
     try {
-      yield API.$auth(this.reader.email, this.reader.password).docs(this.doc.UUID).patch();
+      yield route.patch(`/docs/${this.doc.UUID}`, null, {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -42,15 +46,19 @@ describe('PATCH /docs/:docUUID', function() {
 
   it('should update the title or content', function *() {
     var result;
-    result = yield API.$auth(this.writer.email, this.writer.password).docs(this.doc.UUID).patch({
+    result = yield route.patch(`/docs/${this.doc.UUID}`, {
       title: this.doc.title.repeat(2)
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
     expect(result.changedProperties).to.eql(['title']);
     expect(result.versions.previous).to.eql(this.doc.version);
     expect(result.versions.current).to.eql(this.doc.version + 1);
     expect(result.distance).to.eql(this.doc.title.length);
-    result = yield API.$auth(this.writer.email, this.writer.password).docs(this.doc.UUID).patch({
+    result = yield route.patch(`/docs/${this.doc.UUID}`, {
       content: this.doc.content.repeat(2)
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
     expect(result.changedProperties).to.eql(['content']);
     expect(result.versions.previous).to.eql(this.doc.version + 1);

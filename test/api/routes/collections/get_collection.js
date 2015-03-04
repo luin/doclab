@@ -14,7 +14,7 @@ describe('GET /collections/:collectionId', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.collections(fixtures.collections[0].id).get();
+      yield route.get(`/collections/${fixtures.collections[0].id}`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -23,7 +23,9 @@ describe('GET /collections/:collectionId', function() {
 
   it('should return NotFound when collection is not found', function *() {
     try {
-      yield API.$auth(this.reader.email, this.reader.password).collections(1993).get();
+      yield route.get('/collections/1993', {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -33,7 +35,9 @@ describe('GET /collections/:collectionId', function() {
   it('should return NoPermission when the user don\'t have read permission', function *() {
     var collection = fixtures.collections[0];
     try {
-      yield API.$auth(this.guest.email, this.guest.password).collections(collection.id).get();
+      yield route.get(`/collections/${collection.id}`, {
+        auth: [this.guest.email, this.guest.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -43,7 +47,9 @@ describe('GET /collections/:collectionId', function() {
   it('should return the collection with it\'s project', function *() {
     var project = fixtures.projects[0];
     var collection = fixtures.collections[0];
-    var returnedCollection = yield API.$auth(this.reader.email, this.reader.password).collections(collection.id).get();
+    var returnedCollection = yield route.get(`/collections/${collection.id}`, {
+      auth: [this.reader.email, this.reader.password]
+    });
     expect(returnedCollection).to.have.property('id', collection.id);
     expect(returnedCollection).to.have.property('name', collection.name);
     expect(returnedCollection.project).to.have.property('id', project.id);

@@ -5,7 +5,7 @@ describe('POST /sessions', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.sessions.post({ ttl: 600 });
+      yield route.post('/sessions', { ttl: 600 });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
     }
@@ -15,7 +15,9 @@ describe('POST /sessions', function() {
     var user = fixtures.users[0];
     var session = yield Session.create({ ttl: 600, UserId: user.id, ip: '127.0.0.1' });
     try {
-      yield API.$header('x-session-token', session.token).sessions.post({ ttl: 600 });
+      yield route.post('/sessions', { ttl: 600 }, {
+        headers: { 'x-session-token': session.token }
+      });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
     }
@@ -23,7 +25,9 @@ describe('POST /sessions', function() {
 
   it('should create a session successfully', function *() {
     var user = fixtures.users[0];
-    var session = yield API.$auth(user.email, user.password).sessions.post({ ttl: 600 });
+    var session = yield route.post('/sessions', { ttl: 600 }, {
+      auth: [user.email, user.password]
+    });
     expect(session).to.have.property('token');
     expect(session.ttl).to.eql(600);
     expect(new Date(session.expiredAt) - new Date(session.createdAt)).to.eql(600 * 1000);

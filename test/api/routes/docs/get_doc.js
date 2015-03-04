@@ -12,7 +12,7 @@ describe('GET /docs/:docUUID', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.docs(this.doc.UUID).get();
+      yield route.get(`/docs/${this.doc.UUID}`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -21,7 +21,9 @@ describe('GET /docs/:docUUID', function() {
 
   it('should return NotFound when doc is not found', function *() {
     try {
-      yield API.$auth(this.reader.email, this.reader.password).docs('not exists UUID').get();
+      yield route.get('/docs/not_exists_UUID', {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -31,7 +33,9 @@ describe('GET /docs/:docUUID', function() {
   it('should return NoPermission when the user don\'t have read permission', function *() {
     var guest = fixtures.users[2];
     try {
-      yield API.$auth(guest.email, guest.password).docs(this.doc.UUID).get();
+      yield route.get(`/docs/${this.doc.UUID}`, {
+        auth: [guest.email, guest.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -45,7 +49,9 @@ describe('GET /docs/:docUUID', function() {
       title: 'new title',
       content: 'new content'
     });
-    var doc = yield API.$auth(this.reader.email, this.reader.password).docs(this.doc.UUID).get();
+    var doc = yield route.get(`/docs/${this.doc.UUID}`, {
+      auth: [this.reader.email, this.reader.password]
+    });
     expect(doc.title).to.eql('new title');
     expect(doc.content).to.eql('new content');
     expect(doc.current).to.eql(true);
@@ -66,12 +72,13 @@ describe('GET /docs/:docUUID', function() {
         title: 'version2',
         content: 'version 2'
       });
-    var doc = yield API.$auth(this.reader.email, this.reader.password).docs(this.doc.UUID).get({
-      version: version1.version
-    });
-    expect(doc.title).to.eql(version1.title);
-    expect(doc.content).to.eql(version1.content);
-    expect(doc.version).to.eql(version1.version);
+      var doc = yield route.get(`/docs/${this.doc.UUID}`, {
+        params: { version: version1.version },
+        auth: [this.reader.email, this.reader.password]
+      });
+      expect(doc.title).to.eql(version1.title);
+      expect(doc.content).to.eql(version1.content);
+      expect(doc.version).to.eql(version1.version);
     });
   });
 });

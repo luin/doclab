@@ -12,7 +12,7 @@ describe('POST /collections/:collectionId/dirs/_move', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.collections(fixtures.collections[0].id).dirs('_move').post();
+      yield route.post(`/collections/${fixtures.collections[0].id}/dirs/_move`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -21,7 +21,9 @@ describe('POST /collections/:collectionId/dirs/_move', function() {
 
   it('should return NotFound when collection is not found', function *() {
     try {
-      yield API.$auth(this.writer.email, this.writer.password).collections(1993).dirs('_move').post();
+      yield route.post('/collections/1993/dirs/_move', null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -31,7 +33,9 @@ describe('POST /collections/:collectionId/dirs/_move', function() {
   it('should return NoPermission when the user don\'t have write permission', function *() {
     var collection = fixtures.collections[0];
     try {
-      yield API.$auth(this.reader.email, this.reader.password).collections(collection.id).dirs('_move').post();
+      yield route.post(`/collections/${collection.id}/dirs/_move`, null, {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -40,15 +44,19 @@ describe('POST /collections/:collectionId/dirs/_move', function() {
 
   it('should return InvalidParameter when parameters are invalid', function *() {
     var collection = fixtures.collections[0];
-    var base = API.$auth(this.writer.email, this.writer.password).collections(collection.id).dirs('_move');
+    var url = `/collections/${collection.id}/dirs/_move`;
     try {
-      yield base.post();
+      yield route.post(url, null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
     }
     try {
-      yield base.post({ UUID: '123' });
+      yield route.post(url, { UUID: '123' }, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
@@ -63,14 +71,14 @@ describe('POST /collections/:collectionId/dirs/_move', function() {
     yield fixtures.docs[1].setParent(parentDoc.UUID);
     yield fixtures.docs[2].setParent(parentDoc.UUID);
     yield doc.setParent(fixtures.docs[2].UUID);
-    var dirs;
-    dirs = yield collection.getDirs();
-    yield API.$auth(this.writer.email, this.writer.password).collections(collection.id).dirs('_move').post({
+    yield route.post(`/collections/${collection.id}/dirs/_move`, {
       UUID: doc.UUID,
       parentUUID: parentDoc.UUID,
       order: 1
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
-    dirs = yield collection.getDirs();
+    var dirs = yield collection.getDirs();
     expect(dirs).to.have.length(1);
     expect(dirs[0].children).to.have.length(3);
     expect(dirs[0].children[1].UUID).to.eql(doc.UUID);

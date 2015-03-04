@@ -11,6 +11,6 @@ chai.use(function (_chai, utils) {
   chai.Assertion.addMethod('error', function(error) {
     var obj = utils.flag(this, 'object');
     new chai.Assertion(obj).to.have.deep.property('body.type', error.prototype.name);
-    new chai.Assertion(obj).to.have.property('statusCode', error.prototype.status);
+    new chai.Assertion(obj).to.have.property('status', error.prototype.status);
   });
 });

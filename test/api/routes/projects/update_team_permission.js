@@ -14,7 +14,7 @@ describe('PUT /projects/:projectId/teams/:teamId', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.projects(this.project.id).teams(this.team.id).put();
+      yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`);
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
     }
@@ -22,7 +22,9 @@ describe('PUT /projects/:projectId/teams/:teamId', function() {
 
   it('should return NoPermission if user is not owner or admin', function *() {
     try {
-      yield API.$auth(this.user.email, this.user.password).projects(this.project.id).teams(this.team.id).put();
+      yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`, null, {
+        auth: [this.user.email, this.user.password]
+      });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
     }
@@ -30,42 +32,68 @@ describe('PUT /projects/:projectId/teams/:teamId', function() {
 
   it('should return NotFound if team is not exists', function *() {
     try {
-      yield API.$auth(this.admin.email, this.admin.password).projects(this.project.id).teams(123).put({ permission: 'read' });
+      yield route.put(`/projects/${this.project.id}/teams/123`, {
+        permission: 'read'
+      }, {
+        auth: [this.admin.email, this.admin.password]
+      });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
     }
   });
 
   it('should update permission successfully if user is owner', function *() {
-    yield API.$auth(this.owner.email, this.owner.password).projects(this.project.id).teams(this.team.id).put({ permission: 'read' });
+    yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`, {
+      permission: 'read'
+    }, {
+      auth: [this.owner.email, this.owner.password]
+    });
   });
 
   it('should return InvalidParameter if permission is invalid', function *() {
-    var base = API.$auth(this.admin.email, this.admin.password).projects(this.project.id).teams(this.team.id);
+    var url = `/projects/${this.project.id}/teams/${this.team.id}`;
     try {
-      yield base.put();
+      yield route.put(url, null, {
+        auth: [this.admin.email, this.admin.password]
+      });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
     }
     try {
-      yield base.put({ permission: 'invalid' });
+      yield route.put(url, {
+        permission: 'invalid'
+      }, {
+        auth: [this.admin.email, this.admin.password]
+      });
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
     }
   });
 
   it('should update permission successfully and return the previous permission', function *() {
-    var result = yield API.$auth(this.admin.email, this.admin.password).projects(this.project.id).teams(this.team.id).put({ permission: 'read' });
+    var result = yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`, {
+      permission: 'read'
+    }, {
+      auth: [this.admin.email, this.admin.password]
+    });
     expect(result.permissions.previous).to.eql('write');
     expect(result.permissions.current).to.eql('read');
   });
 
   it('should return null if team has no permission to the project', function *() {
     var result;
-    result = yield API.$auth(this.admin.email, this.admin.password).projects(this.project.id).teams(this.team.id).put({ permission: null });
+    result = yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`, {
+      permission: null
+    }, {
+      auth: [this.admin.email, this.admin.password]
+    });
     expect(result.permissions.current).to.eql(null);
 
-    result = yield API.$auth(this.admin.email, this.admin.password).projects(this.project.id).teams(this.team.id).put({ permission: 'read' });
+    result = yield route.put(`/projects/${this.project.id}/teams/${this.team.id}`, {
+      permission: 'read'
+    }, {
+      auth: [this.admin.email, this.admin.password]
+    });
     expect(result.permissions.previous).to.eql(null);
   });
 });

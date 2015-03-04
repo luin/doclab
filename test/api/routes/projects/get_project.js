@@ -8,7 +8,7 @@ describe('GET /projects/:projectId', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.projects(fixtures.projects[0].id).get();
+      yield route.get(`/projects/${fixtures.projects[0].id}`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -18,7 +18,9 @@ describe('GET /projects/:projectId', function() {
   it('should return NotFound when project is not found', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).projects(1993).get();
+      yield route.get('/projects/1993', {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -29,7 +31,9 @@ describe('GET /projects/:projectId', function() {
     var user = fixtures.users[1];
     var project = fixtures.projects[0];
     try {
-      yield API.$auth(user.email, user.password).projects(project.id).get();
+      yield route.get(`/projects/${project.id}`, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -39,7 +43,9 @@ describe('GET /projects/:projectId', function() {
   it('should return project and it\'s collections', function *() {
     var user = fixtures.users[0];
     var project = fixtures.projects[0];
-    var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get();
+    var returnedProject = yield route.get(`/projects/${project.id}`, {
+      auth: [user.email, user.password]
+    });
     expect(returnedProject).to.have.property('id', project.id);
     expect(returnedProject).to.have.property('name', project.name);
     expect(returnedProject).to.not.have.property('collections');
@@ -50,8 +56,9 @@ describe('GET /projects/:projectId', function() {
     it('should support collections', function *() {
       var user = fixtures.users[0];
       var project = fixtures.projects[0];
-      var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get({
-        fields: 'collections'
+      var returnedProject = yield route.get(`/projects/${project.id}`, {
+        params: { fields: 'collections' },
+        auth: [user.email, user.password]
       });
       expect(returnedProject.collections).to.have.length(2);
     });
@@ -59,8 +66,9 @@ describe('GET /projects/:projectId', function() {
     it('should support teams', function *() {
       var user = fixtures.users[0];
       var project = fixtures.projects[0];
-      var returnedProject = yield API.$auth(user.email, user.password).projects(project.id).get({
-        fields: 'teams'
+      var returnedProject = yield route.get(`/projects/${project.id}`, {
+        params: { fields: 'teams' },
+        auth: [user.email, user.password]
       });
       expect(returnedProject.teams).to.have.length(1);
     });

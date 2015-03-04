@@ -5,7 +5,7 @@ describe('PATCH /users/:user', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.users('me').patch();
+      yield route.patch('/users/me');
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -15,7 +15,9 @@ describe('PATCH /users/:user', function() {
   it('should return NoPermission when patch other people', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).users(fixtures.users[1].id).patch();
+      yield route.patch(`/users/${fixtures.users[1].id}`, null, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -25,7 +27,9 @@ describe('PATCH /users/:user', function() {
   it('should return NotFound when not found', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).users(123456789).patch();
+      yield route.patch('/users/123456789', null, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -34,14 +38,18 @@ describe('PATCH /users/:user', function() {
 
   it('should allow empty body', function *() {
     var user = fixtures.users[0];
-    var result = yield API.$auth(user.email, user.password).users(user.id).patch();
+    var result = yield route.patch(`/users/${user.id}`, null, {
+      auth: [user.email, user.password]
+    });
     expect(result.changedProperties).to.eql([]);
   });
 
   it('should update the specific properties', function *() {
     var user = fixtures.users[0];
-    var result = yield API.$auth(user.email, user.password).users(user.id).patch({
+    var result = yield route.patch(`/users/${user.id}`, {
       name: 'updated name'
+    }, {
+      auth: [user.email, user.password]
     });
     expect(result.changedProperties).to.eql(['name']);
     expect(yield user.reload()).to.have.property('name', 'updated name');
@@ -49,8 +57,10 @@ describe('PATCH /users/:user', function() {
 
   it('should support alias "me"', function *() {
     var user = fixtures.users[0];
-    yield API.$auth(user.email, user.password).users('me').patch({
+    yield route.patch('/users/me', {
       name: 'updated name'
+    }, {
+      auth: [user.email, user.password]
     });
     expect(yield user.reload()).to.have.property('name', 'updated name');
   });

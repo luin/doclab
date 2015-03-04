@@ -1,11 +1,20 @@
 GLOBAL._ = require('lodash');
-GLOBAL.$config = require('config');
+var config = require('config');
 
-var tser = require('tser');
-Object.defineProperty(GLOBAL, 'API', {
-  get: function() {
-    return tser('http://127.0.0.1:' + $config.site.port + '/api', {
-      defaults: { json: true }
-    });
+var axios = require('axios');
+axios.interceptors.request.use(function (req) {
+  req.url = `http://127.0.0.1:${config.site.port}/api${req.url}`;
+  if (req.auth) {
+    req.headers.Authorization = 'Basic ' + new Buffer(req.auth.join(':')).toString('base64');
   }
+  return req;
 });
+
+axios.interceptors.response.use(function (res) {
+  return res.data;
+}, function (err) {
+  err.body = err.data;
+  return Promise.reject(err);
+});
+
+GLOBAL.route = axios;

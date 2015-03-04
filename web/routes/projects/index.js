@@ -10,7 +10,7 @@ router.get('/:projectId/settings', middlewares.me(), middlewares.currentProject(
 });
 
 router.get('/:projectId/settings/permissions', middlewares.me(), middlewares.currentProject({ fetch: { fields: 'teams' } }), function *() {
-  var teams = yield this.api.teams.get();
+  var teams = yield this.api.get('/teams');
   teams = teams.filter(function(team) {
     return !this.locals.currentProject.teams.find(function(item) {
       return item.id === team.id;
@@ -29,15 +29,15 @@ router.get('/:projectId/settings/permissions', middlewares.me(), middlewares.cur
 });
 
 router.patch('/:projectId', function *() {
-  yield this.api.projects(this.params.projectId).patch({
+  yield this.api.patch(`/projects/${this.params.projectId}`, {
     name: this.request.body.name
   });
   this.flash = { msgs: 'Updated successfully' };
-  this.redirect('/projects/' + this.params.projectId + '/settings');
+  this.redirect(`/projects/${this.params.projectId}/settings`);
 });
 
 router.put('/:projectId/teams/:teamId', function *() {
-  this.body = yield this.api.projects(this.params.projectId).teams(this.params.teamId).put({
+  this.body = yield this.api.put(`/projects/${this.params.projectId}/teams/${this.params.teamId}`, {
     permission: this.request.body.permission === 'none' ? null : this.request.body.permission
   });
 });
@@ -47,16 +47,16 @@ router.get('/:projectId/collections/:collectionId', function *() {
 });
 
 router.post('/:projectId/collections', function *() {
-  var collection = yield this.api.projects(this.params.projectId).collections.post({
+  var collection = yield this.api.post(`/projects/${this.params.projectId}/collections`, {
     name: this.request.body.name,
     description: this.request.body.description
   });
   this.flash = { msgs: 'Create successfully.' };
-  this.redirect('/projects/' + this.params.projectId);
+  this.redirect(`/projects/${this.params.projectId}`);
 });
 
 router.post('/', function *() {
-  yield this.api.projects.post({
+  yield this.api.post('/projects', {
     name: this.request.body.name
   });
 

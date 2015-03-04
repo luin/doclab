@@ -12,7 +12,7 @@ describe('GET /docs/:docUUID/versions', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.docs(this.doc.UUID).versions.get();
+      yield route.get(`/docs/${this.doc.UUID}/versions`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -21,7 +21,9 @@ describe('GET /docs/:docUUID/versions', function() {
 
   it('should return NotFound when doc is not found', function *() {
     try {
-      yield API.$auth(this.reader.email, this.reader.password).docs('not exists UUID').versions.get();
+      yield route.get('/docs/not_exists_UUID/versions', {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NotFound);
@@ -31,7 +33,9 @@ describe('GET /docs/:docUUID/versions', function() {
   it('should return NoPermission when the user don\'t have read permission', function *() {
     var guest = fixtures.users[2];
     try {
-      yield API.$auth(guest.email, guest.password).docs(this.doc.UUID).versions.get();
+      yield route.get(`/docs/${this.doc.UUID}/versions`, {
+        auth: [guest.email, guest.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -45,7 +49,9 @@ describe('GET /docs/:docUUID/versions', function() {
       title: 'new title',
       content: 'new content'
     });
-    var versions = yield API.$auth(this.reader.email, this.reader.password).docs(this.doc.UUID).versions.get();
+    var versions = yield route.get(`/docs/${this.doc.UUID}/versions`, {
+      auth: [this.reader.email, this.reader.password]
+    });
     expect(versions).to.have.length(2);
     expect(versions[0]).to.have.property('version', 1);
     expect(versions[0]).to.not.have.property('title');
@@ -56,8 +62,9 @@ describe('GET /docs/:docUUID/versions', function() {
 
   describe('?fields=title,author,content', function() {
     it('should also return the specified fields', function *() {
-      var version = (yield API.$auth(this.reader.email, this.reader.password).docs(this.doc.UUID).versions.get({
-        fields: 'title,author,content'
+      var version = (yield route.get(`/docs/${this.doc.UUID}/versions`, {
+        params: { fields: 'title,author,content' },
+        auth: [this.reader.email, this.reader.password]
       }))[0];
       expect(version.title).to.eql(this.doc.title);
       expect(version.content).to.eql(this.doc.content);

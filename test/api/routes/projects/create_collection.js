@@ -12,7 +12,7 @@ describe('POST /projects/:projectId/collections', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.projects(this.project.id).collections.post();
+      yield route.post(`/projects/${this.project.id}/collections`);
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -21,7 +21,9 @@ describe('POST /projects/:projectId/collections', function() {
 
   it('should return NoPermission when the user don\'t have write permission', function *() {
     try {
-      yield API.$auth(this.reader.email, this.reader.password).projects(this.project.id).collections.post();
+      yield route.post(`/projects/${this.project.id}/collections`, null, {
+        auth: [this.reader.email, this.reader.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -29,9 +31,10 @@ describe('POST /projects/:projectId/collections', function() {
   });
 
   it('should return InvalidParameter when parameters are invalid', function *() {
-    var base = API.$auth(this.writer.email, this.writer.password).projects(this.project.id).collections;
     try {
-      yield base.post();
+      yield route.post(`/projects/${this.project.id}/collections`, null, {
+        auth: [this.writer.email, this.writer.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
@@ -39,9 +42,11 @@ describe('POST /projects/:projectId/collections', function() {
   });
 
   it('should create a new collection', function *() {
-    var collection = yield API.$auth(this.writer.email, this.writer.password).projects(this.project.id).collections.post({
+    var collection = yield route.post(`/projects/${this.project.id}/collections`, {
       name: 'new name',
       description: 'new description'
+    }, {
+      auth: [this.writer.email, this.writer.password]
     });
     expect(collection.name).to.eql('new name');
     expect(collection.description).to.eql('new description');

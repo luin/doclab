@@ -18,8 +18,8 @@ router.get('/', function *() {
     if (typeof team.Users !== 'undefined') {
       team.users = team.Users.map(function(user) {
         user = user.dataValues;
-        user.joinedAt = user.TeamsUsers.createdAt;
-        delete user.TeamsUsers;
+        user.joinedAt = user.UserTeam.createdAt;
+        delete user.UserTeam;
         return user;
       });
       delete team.Users;

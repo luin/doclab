@@ -23,7 +23,7 @@ describe('GET /projects', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.projects.get();
+      yield route.get('/projects');
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -32,7 +32,10 @@ describe('GET /projects', function() {
 
   it('should return all projects when user is owner', function *() {
     var owner = fixtures.users[0];
-    var projects = yield API.$auth(owner.email, owner.password).projects.get();
+    var projects = yield route.get('/projects', {
+      auth: [owner.email, owner.password]
+    });
+
     expect(projects).to.have.length(fixtures.projects.length);
     projects.forEach(function(project) {
       expect(project).to.have.property('permission', 'admin');
@@ -41,7 +44,9 @@ describe('GET /projects', function() {
 
   it('should return all my projects with correct permission', function *() {
     var user = this.user;
-    var projects = yield API.$auth(user.email, user.password).projects.get();
+    var projects = yield route.get('/projects', {
+      auth: [user.email, user.password]
+    });
     expect(projects).to.have.length(4);
     projects.forEach(function(project) {
       switch (project.id) {
@@ -64,8 +69,9 @@ describe('GET /projects', function() {
   describe('?permission=:permission', function() {
     it('should filter permission', function *() {
       var user = this.user;
-      var projects = yield API.$auth(user.email, user.password).projects.get({
-        permission: 'write'
+      var projects = yield route.get('/projects', {
+        params: { permission: 'write' },
+        auth: [user.email, user.password]
       });
       expect(projects).to.have.length(1);
       expect(projects[0].id).to.eql(fixtures.projects[2].id);
@@ -76,8 +82,9 @@ describe('GET /projects', function() {
     ['asc', 'desc'].forEach(function(order) {
       it('should support sort id ' + order, function *() {
         var user = this.user;
-        var projects = yield API.$auth(user.email, user.password).projects.get({
-          sort: (order === 'asc' ? '+' : '-') + 'id'
+        var projects = yield route.get('/projects', {
+          params: { sort: (order === 'asc' ? '+' : '-') + 'id' },
+          auth: [user.email, user.password]
         });
         for (var i = 1; i < projects.length; ++i) {
           expect(projects[i].id).to.be[order === 'asc' ? 'gte' : 'lte'](projects[i - 1].id);

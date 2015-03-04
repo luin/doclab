@@ -6,7 +6,7 @@ describe('POST /teams', function() {
 
   it('should return Unauthorized when user is unauthorized', function *() {
     try {
-      yield API.teams.post();
+      yield route.post('/teams');
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.Unauthorized);
@@ -16,7 +16,9 @@ describe('POST /teams', function() {
   it('should return NoPermission if is not owner', function *() {
     var user = fixtures.users[1];
     try {
-      yield API.$auth(user.email, user.password).teams.post();
+      yield route.post('/teams', null, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.NoPermission);
@@ -26,7 +28,9 @@ describe('POST /teams', function() {
   it('should return InvalidParameter without the "name" parameter', function *() {
     var user = fixtures.users[0];
     try {
-      yield API.$auth(user.email, user.password).teams.post({});
+      yield route.post('/teams', {}, {
+        auth: [user.email, user.password]
+      });
       throw new Error('should reject');
     } catch (err) {
       expect(err).to.be.an.error(HTTP_ERROR.InvalidParameter);
@@ -35,8 +39,10 @@ describe('POST /teams', function() {
 
   it('should create a user team correctly', function *() {
     var user = fixtures.users[0];
-    var team = yield API.$auth(user.email, user.password).teams.post({
+    var team = yield route.post('/teams', {
       name: 'team name'
+    }, {
+      auth: [user.email, user.password]
     });
     expect(team).to.have.property('name', 'team name');
   });

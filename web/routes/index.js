@@ -6,12 +6,12 @@ router.get('/', middlewares.me(), middlewares.currentProject(), function *() {
 });
 
 router.get('/launchpad', middlewares.me(), function *() {
-  this.locals.projects = yield this.api.projects.get();
+  this.locals.projects = yield this.api.get('/projects');
   yield this.render('launchpad');
 });
 
 router.post('/launchpad', function *() {
-  var project = yield this.api.projects(this.request.body.projectId).get();
+  var project = yield this.api.get(`/projects/${this.request.body.projectId}`);
   middlewares.currentProject.select.call(this, project);
   this.redirect('/');
 });
