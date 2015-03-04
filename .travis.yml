@@ -12,11 +12,12 @@ script:
 
 env:
   - DB_DIALECT=mysql DB_NAME=doclab_test DB_USER=root DB_PASS=""
-  - DB_DIALECT=postgres DB_NAME=doclab_test DB_USER=postgres DB_PASS=""
+  # # https://github.com/sequelize/sequelize/issues/2985
+  # - DB_DIALECT=postgres DB_NAME=doclab_test DB_USER=postgres DB_PASS=""
 
 before_script:
   - mysql -e 'create database doclab_test;'
-  - psql -c 'create database doclab_test;' -U postgres
+  # - psql -c 'create database doclab_test;' -U postgres
 
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate
