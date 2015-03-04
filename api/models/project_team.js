@@ -16,9 +16,9 @@ module.exports = function(DataTypes) {
         var min = Math.min.apply(Math, permissions.map(function(permission) {
           return PERMISSION[permission] || Number.MAX_VALUE;
         }));
-        return Object.keys(PERMISSION).find(function(key) {
+        return Object.keys(PERMISSION).filter(function(key) {
           return PERMISSION[key] === min;
-        });
+        })[0];
       }
     }
   }];
