@@ -1,5 +1,6 @@
 var natural = require('natural');
 var Instance = require('../../node_modules/sequelize/lib/instance.js');
+var _ = require('lodash');
 
 module.exports = function(DataTypes) {
   return [{

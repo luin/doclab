@@ -6,6 +6,7 @@ var os = require('os');
 var gm = require('gm');
 var path = require('path');
 var config = require('config');
+var _ = require('lodash');
 
 router.post('/', function *() {
   var isFirstUser = (yield User.count()) === 0;

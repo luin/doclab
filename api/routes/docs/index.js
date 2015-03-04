@@ -1,4 +1,5 @@
 var router = module.exports = new (require('koa-router'))();
+var _ = require('lodash');
 
 router.param('docUUID', function *(id, next) {
   var query = { UUID: id };

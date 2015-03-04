@@ -1,4 +1,3 @@
-GLOBAL._ = require('lodash');
 var config = require('config');
 
 var axios = require('axios');
