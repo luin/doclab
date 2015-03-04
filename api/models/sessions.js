@@ -52,6 +52,9 @@ module.exports = function(DataTypes) {
           yield Session.destroy({ where: { expiredAt: { lt: now } } });
         }
         var user = yield session.getUser();
+        if (!user) {
+          return null;
+        }
         user.setDataValue('currentSession', session);
         return user;
       }
