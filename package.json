@@ -4,7 +4,7 @@
   "description": "An elegant, open-source and non-technical users friendly wiki-based system for collaborative.",
   "main": "index.js",
   "scripts": {
-    "test": "semistandard && NODE_ENV=test mocha --harmony",
+    "test": "NODE_ENV=test mocha --harmony",
     "test:debug": "NODE_ENV=test mocha --harmony debug",
     "test:cov": "NODE_ENV=test node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --preserve-comments ./node_modules/mocha/bin/_mocha -- -R spec"
   },
@@ -84,7 +84,6 @@
     "istanbul-harmony": "^0.3.1",
     "mocha": "^2.0.1",
     "node-uuid": "^1.4.2",
-    "semistandard": "^2.10.0",
     "sinon": "^1.12.1"
   },
   "engines": {
