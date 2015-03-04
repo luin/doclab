@@ -35,11 +35,11 @@ Object.keys(models).forEach(function(key) {
   exports[modelName] = modelInstance;
 });
 
-exports.User.hasMany(exports.Team, { constraints: false, timestamps: false });
-exports.Team.hasMany(exports.User, { constraints: false, timestamps: false });
+exports.User.belongsToMany(exports.Team, { constraints: false, timestamps: false, through: 'UserTeam' });
+exports.Team.belongsToMany(exports.User, { constraints: false, timestamps: false, through: 'UserTeam' });
 
-exports.Project.hasMany(exports.Team, { through: exports.ProjectTeam, constraints: false });
-exports.Team.hasMany(exports.Project, { through: exports.ProjectTeam, constraints: false });
+exports.Project.belongsToMany(exports.Team, { through: exports.ProjectTeam, constraints: false });
+exports.Team.belongsToMany(exports.Project, { through: exports.ProjectTeam, constraints: false });
 
 exports.Collection.hasMany(exports.Doc, { constraints: false });
 exports.Doc.belongsTo(exports.Collection, { constraints: false });
