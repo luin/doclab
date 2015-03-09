@@ -8,7 +8,7 @@ module.exports = function(server) {
   var wss = new WebSocketServer({
     server: server,
     verifyClient: function(info, cb) {
-      var sessionToken = cookie.parse(info.req.headers.cookie)['session-token'];
+      var sessionToken = cookie.parse(info.req.headers.cookie || '')['session-token'];
       if (typeof sessionToken === 'undefined') {
         return cb(false, 401);
       }

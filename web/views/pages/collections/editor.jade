@@ -6,9 +6,9 @@ block styles
 
 block body
   .container.doc-editor
-    form.js-doc-form(method='post', action='/collections/#{ctx.params.collectionId}/docs')
-      input.doc-editor__title(type="text", name="title", placeholder="标题")
-      textarea.doc-editor__content.js-doc-editor(placeholder="这里输入内容", autofocus)
+    form.js-doc-form(method='post', action='/collections/#{ctx.params.collectionId}/docs' + (locals.doc ? '/' + doc.UUID : ''))
+      input.doc-editor__title(type="text", name="title", placeholder="标题", value=locals.doc ? doc.value : '')
+      textarea.doc-editor__content.js-doc-editor(placeholder="这里输入内容", autofocus)=locals.doc ? doc.content : ''
       .doc-editor__toolbar
         button(type="submit").button.button--success 保存
 
@@ -17,6 +17,6 @@ block scripts
     var doclab = {
       ssl: #{config.site.ssl ? 'true' : 'false'},
       host: "#{config.site.host}",
-      UUID: #{locals.UUID ? '"' + locals.UUID + '"' : 'false'}
+      UUID: !{locals.doc ? '"' + locals.doc.UUID + '"' : 'false'}
     };
   script(src='/build/scripts/editor.js')

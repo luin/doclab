@@ -17,8 +17,12 @@ $('.js-doc-form').submit(function(event) {
   var body = editor.getValue();
 
   if (doclab.UUID) {
+    $.api.patch(action, {
+      title: title,
+      content: body
+    }, function(data) {
+    });
   } else {
-    console.log(body);
     $.api.post(action, {
       title: title,
       content: body

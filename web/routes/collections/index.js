@@ -21,8 +21,24 @@ router.get('/:collectionId/docs/new', middlewares.me(), function *() {
   yield this.render('/collections/editor');
 });
 
-router.get('/:collectionId/docs/:docUUID', function *() {
+router.param('docUUID', function *(id, next) {
   this.locals.doc = yield this.api.get(`/docs/${this.params.docUUID}`);
+  yield next;
+});
+
+router.get('/:collectionId/docs/:docUUID/edit', middlewares.me(), function *() {
+  yield this.render('/collections/editor');
+});
+
+router.patch('/:collectionId/docs/:docUUID', function *() {
+  yield this.api.patch(`/docs/${this.params.docUUID}`, {
+    title: this.request.body.title,
+    content: this.request.body.content
+  });
+  this.body = { msg: 'ok' };
+});
+
+router.get('/:collectionId/docs/:docUUID', function *() {
   yield this.render('/collections/show');
 });
 
@@ -33,5 +49,5 @@ router.post('/:collectionId/_move', function *() {
 });
 
 router.post('/:collectionId/docs', function *() {
-  this.body = yield this.api.post(`/collections/${this.params/collectionId}/docs`, this.request.body);
+  this.body = yield this.api.post(`/collections/${this.params.collectionId}/docs`, this.request.body);
 });
