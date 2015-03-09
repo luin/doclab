@@ -5,7 +5,6 @@ autolayout();
 
 function getHeight($element, includeHeight) {
   var log = function(value) {
-    console.log(value);
     return value;
   };
   var height = includeHeight ? $element.height() : 0;

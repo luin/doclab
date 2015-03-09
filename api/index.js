@@ -54,7 +54,6 @@ app.use(function *(next) {
   }
 
   var user = auth(this.req);
-  console.log(user);
   if (user) {
     this.me = yield User.find({ where: { email: user.name } });
     this.assert(this.me, new HTTP_ERROR.UnregisteredEmail());
