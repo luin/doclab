@@ -1,10 +1,27 @@
 extends ../../layouts/collection
 block content
-  aside.dir
-    ul
-      each item in dirs
-        li.dir__item
-          a(href="/collections/#{collection.id}/docs/#{item.UUID}", class=item.UUID === doc.UUID ? 'is-active' : '') #{item.title}
+  aside.collection-menu
+    header
+      if ['write', 'admin'].indexOf(collection.project.permission) !== -1
+        ul.pull-right
+          li
+            a(href="/collections/#{collection.id}/docs/new")
+              span.docicon.docicon-plus
+      ul.pull-left
+        li
+          span.docicon.docicon-search
+      h2(style="text-align:center") Dirs
+    mixin dir(items)
+      ul
+        each item in items
+          li.dir__item
+            .dir__item__handler
+            a(href="/collections/#{collection.id}/docs/new?parentUUID=#{item.UUID}").dir__item__add.docicon.docicon-plus
+            a(href="/collections/#{collection.id}/docs/#{item.UUID}", class=item.UUID === doc.UUID ? 'is-active' : '').dir__item__title #{item.title}
+            if item.children
+              +dir(item.children)
+    .dir
+      +dir(dirs)
   .article
     .article__toolbar
       h2 #{collection.name}

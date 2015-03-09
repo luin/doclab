@@ -53,5 +53,6 @@ describe('GET /collections/:collectionId', function() {
     expect(returnedCollection).to.have.property('id', collection.id);
     expect(returnedCollection).to.have.property('name', collection.name);
     expect(returnedCollection.project).to.have.property('id', project.id);
+    expect(returnedCollection.project).to.have.property('permission', 'read');
   });
 });

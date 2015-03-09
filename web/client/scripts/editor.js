@@ -25,7 +25,8 @@ $('.js-doc-form').submit(function(event) {
   } else {
     $.api.post(action, {
       title: title,
-      content: body
+      content: body,
+      parentUUID: doclab.parentUUID
     }, function(data) {
       console.log(data);
     });

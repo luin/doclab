@@ -1,28 +1,50 @@
 .dir {
-  float: left;
-  width: 300px;
-  border-right: 1px solid @color-collection-split;
-  min-height: 100%;
 }
 
 .dir__item {
-  > a {
-    display: block;
-    font-weight: normal;
-    padding: 10px 15px;
-    border-bottom: 0;
-    color: #364149;
-    background: transparent;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
+  position: relative;
 
+  > a {
+    color: #364149;
     &:hover, &.is-active {
       color: #008cff;
       text-decoration: none;
     }
   }
+}
+
+.dir__item__title {
+  display: block;
+  font-weight: normal;
+  padding: 10px 15px;
+  border-bottom: 0;
+  background: transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.dir__item__handler {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  background: #f00;
+  z-index: 1;
+}
+
+.dir__item__add {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  z-index: 1;
+}
+
+.dir__item:hover > .dir__item__handler {
+  display: block;
 }
 
 .dir__item--placeholder {

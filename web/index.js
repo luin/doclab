@@ -22,12 +22,12 @@ app.use(function *(next) {
   try {
     yield next;
   } catch (err) {
-    if (err.statusCode) {
-      if (err.statusCode === 401) {
+    if (err.status) {
+      if (err.status === 401) {
         return this.redirect('/account/signin');
       }
       this.body = err.body;
-      this.status = err.statusCode;
+      this.status = err.status;
     } else {
       this.body = { err: 'server error' };
       this.status = 500;

@@ -5,12 +5,12 @@ if (!$('.article').length) {
   return;
 }
 
-$('.dir ul').nestedSortable({
-  handle: 'a',
+$('.dir > ul').nestedSortable({
+  handle: '.dir__item__handler',
   items: 'li',
   listType: 'ul',
   placeholder: 'dir__item dir__item--placeholder',
-  toleranceElement: '> a'
+  toleranceElement: '.dir__item__title'
 });
 
 // var $sortableCollection = $('.dir ul').sortable({

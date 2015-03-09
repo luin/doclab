@@ -17,6 +17,7 @@ block scripts
     var doclab = {
       ssl: #{config.site.ssl ? 'true' : 'false'},
       host: "#{config.site.host}",
-      UUID: !{locals.doc ? '"' + locals.doc.UUID + '"' : 'false'}
+      UUID: !{locals.doc ? '"' + locals.doc.UUID + '"' : 'false'},
+      parentUUID: !{req.query.parentUUID ? '"' + req.query.parentUUID + '"' : 'false'}
     };
   script(src='/build/scripts/editor.js')

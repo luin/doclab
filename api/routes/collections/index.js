@@ -8,6 +8,7 @@ router.param('collectionId', function *(id, next) {
   this.assert(this.project, 409);
 
   this.permission = yield this.me.getPermission(this.project);
+  this.project.setDataValue('permission', this.permission);
 
   this.checkPermission = function(permission) {
     return ProjectTeam.higherPermission(permission, this.permission) === this.permission;
