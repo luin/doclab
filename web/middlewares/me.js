@@ -7,7 +7,7 @@ module.exports = function(options) {
   }
   return function *(next) {
     try {
-      this.locals.me = yield this.api.users('me').get();
+      this.locals.me = yield this.api.get('/users/me');
     } catch (err) {
       if (options.redirect) {
         var redirectTo =

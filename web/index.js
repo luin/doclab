@@ -5,13 +5,16 @@ app.use(require('koa-mount')('/build', require('koa-static')(require('path').joi
 
 app.use(require('koa-logger')());
 
+var axios = require('axios');
 app.use(function *(next) {
-  this.api = API;
-  this.api.$header('user-agent', this.request.get('user-agent'));
   var token = this.cookies.get('session-token');
   if (token) {
-    this.api.$header('x-session-token', token);
+    axios.interceptors.request.use(function (req) {
+      req.headers['x-session-token'] = token;
+      return req;
+    });
   }
+  this.api = axios;
   yield next;
 });
 

@@ -4,6 +4,8 @@ GLOBAL.expect = chai.expect;
 GLOBAL.sinon = require('sinon');
 GLOBAL.fixtures = require('./fixtures');
 
+GLOBAL.route = require('axios');
+
 var app = require('../../');
 app.listen(require('config').site.port);
 

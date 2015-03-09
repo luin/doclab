@@ -11,7 +11,7 @@ block body
     block content
   block footer
     include ../includes/footer
-  script(src='/build/scripts/app.js')
-  script.
-    var currentProjectId = !{JSON.stringify(currentProject.id)};
   block scripts
+    script(src='/build/scripts/app.js')
+    script.
+      var currentProjectId = !{JSON.stringify(currentProject.id)};

@@ -49,8 +49,8 @@ var handleError = function(task) {
   };
 };
 
-gulp.task('clean', function(cb) {
-  require('del')(['build/'], cb);
+gulp.task('clean', function() {
+  require('rimraf').sync('build');
 });
 
 gulp.task('assets', function() {
@@ -66,22 +66,23 @@ gulp.task('less', function() {
   if (production) {
     plugins.push(cleancss);
   }
+  // https://github.com/less/less.js/issues/2413
   return gulp.src('./client/styles/index.less')
     // sourcemaps + less + error handling
-    .pipe(gulpif(!production, sourcemaps.init()))
+    // .pipe(gulpif(!production, sourcemaps.init()))
     .pipe(less({
       plugins: plugins
     }))
     .on('error', handleError('LESS'))
     // generate .maps
-    .pipe(gulpif(!production, sourcemaps.write({
-      'includeContent': false,
-      'sourceRoot': '.'
-    })))
+    // .pipe(gulpif(!production, sourcemaps.write({
+    //   'includeContent': false,
+    //   'sourceRoot': '.'
+    // })))
     // autoprefixer
-    .pipe(gulpif(!production, sourcemaps.init({
-      'loadMaps': true
-    })))
+    // .pipe(gulpif(!production, sourcemaps.init({
+    //   'loadMaps': true
+    // })))
     .pipe(gulp.dest('build/styles'));
 });
 

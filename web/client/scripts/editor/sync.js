@@ -3,7 +3,7 @@ var diff = require('ot-client').diff;
 module.exports = function(editor, UUID, websocketAddress) {
   var old = transformValue(editor.getValue());
 
-  var ws = new WebSocket(websocketAddress);
+  var ws = new WebSocket(websocketAddress + '/?UUID=' + UUID);
 
   ws.onerror = function(event) {
     console.log('error', event);

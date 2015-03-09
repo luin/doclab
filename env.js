@@ -15,5 +15,3 @@ axios.interceptors.response.use(function (res) {
   err.body = err.data;
   return Promise.reject(err);
 });
-
-GLOBAL.route = axios;

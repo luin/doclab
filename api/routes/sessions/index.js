@@ -9,6 +9,7 @@ router.post('/', function *() {
     ip: this.ip,
     userAgent: this.request.get('user-agent')
   });
+  console.log(this.body);
 });
 
 router.delete('/current', function *() {

@@ -15,12 +15,12 @@ exports = module.exports = function(options) {
       };
       if (typeof this.params.projectId !== 'undefined' &&
           this.locals.currentProject.id !== this.params.projectId) {
-        this.locals.currentProject = exports.select.call(this, yield this.api.projects(this.params.projectId).get());
+        this.locals.currentProject = exports.select.call(this, yield this.api.get(`/projects/${this.params.projectId}`));
       }
       if (options.fetch) {
-        var fetchedProject = yield this.api.projects(this.locals.currentProject.id).get(
-          typeof options.fetch === 'object' ? options.fetch : undefined
-        );
+        var fetchedProject = yield this.api.get(`/projects/${this.locals.currentProject.id}`, {
+          params: typeof options.fetch === 'object' ? options.fetch : undefined
+        });
         if (fetchedProject.name !== this.locals.currentProject.name) {
           exports.select.call(this, fetchedProject);
         }
